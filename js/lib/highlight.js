@@ -11,15 +11,17 @@ mixins.highlight = {
             return new Promise((resolve) => setTimeout(resolve, ms));
         },
         highlight() {
-            let codes = document.querySelectorAll("pre");
+            let codes = document.querySelectorAll("pre code");
             for (let i of codes) {
                 let code = i.textContent;
-                let language = [...i.classList, ...i.firstChild.classList][0] || "plaintext";
+                console.log(i);
+                let language = i.classList[0].replace("language-", '') || "plaintext";
+                // let language = "C";
                 let highlighted;
                 try {
                     highlighted = hljs.highlight(code, { language }).value;
                 } catch {
-                    highlighted = code;
+                    highlighted = hljs.highlightAuto(code).value;
                 }
                 i.innerHTML = `
                 <div class="code-content hljs">${highlighted}</div>

