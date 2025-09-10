@@ -203,14 +203,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/ctf/" style="color: #ff7d73">
+                <a href="/tags/ctf/" style="color: #ffa2c4">
                     ctf
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/pwn/" style="color: #ffa2c4">
+                <a href="/tags/pwn/" style="color: #00a596">
                     pwn
                 </a>
             </span>
@@ -392,11 +392,11 @@ p.sendline(payload2)
 p.interactive()
 </code></pre>
 <p>一个<code>ret2libc</code>，题目给了libc库，所以就直接用远程的打了。整个逻辑简单。这道题主要学到的是如何绕过<code>strlen()</code></p>
-<p>![[截屏2025-08-12 14.37.45.png]]<br>这里为了防止程序提前退出，必须绕过<code>strncmp</code>，这里可以选择想办法让<code>v1</code>&#x3D;0，从而让这个函数返回0。因为<code>dev_urandom</code>是系统生成的随机数，我们无法知道其值，从而输入<code>\x00</code>开头的字符串，使得<code>strlen</code>判断其为0。<code>strlen</code>遇到<code>\x00</code>会停下来。</p>
+<p><img src="/images/123.png"><br>这里为了防止程序提前退出，必须绕过<code>strncmp</code>，这里可以选择想办法让<code>v1</code>&#x3D;0，从而让这个函数返回0。因为<code>dev_urandom</code>是系统生成的随机数，我们无法知道其值，从而输入<code>\x00</code>开头的字符串，使得<code>strlen</code>判断其为0。<code>strlen</code>遇到<code>\x00</code>会停下来。</p>
 <blockquote>
 <p>PS：<code>read</code>函数并不会遇到某些字符就停下来，他会一直读取到指定的字节数。</p>
 </blockquote>
-<h1 id="ciscn-2019-n-5"><a href="#ciscn-2019-n-5" class="headerlink" title="ciscn_2019_n_5"></a>ciscn_2019_n_5</h1><p>x86_64<br>![[Pasted image 20250812151945.png]]</p>
+<h1 id="ciscn-2019-n-5"><a href="#ciscn-2019-n-5" class="headerlink" title="ciscn_2019_n_5"></a>ciscn_2019_n_5</h1><p>x86_64<br><img src="/images/20250812151945.png"></p>
 <p>程序中没有<code>system</code>和<code>/bin/sh</code>，可以找<code>libc</code>手打ROP。当然，<code>checksec</code>发现程序并没有开启<code>NX</code>，所以完全可以在<code>read(0, name, 0x64)</code>的时候写入一段shellcode。</p>
 <p>方法一：<code>ret2libc</code></p>
 <pre><code class="language-python">from pwn import *
@@ -623,7 +623,7 @@ p.sendline(payload)
 p.sendline(b&#39;4&#39;)
 p.interactive()
 </code></pre>
-<p>具体利用原理在于：<br>![[Pasted image 20250818120003.png]]<br>这里src只有48字节大小，但是在<code>AddLog</code>里面可以输入128字节，可以构造栈溢出，然后在<code>GetFlag</code>里面利用。因为<code>GetFlag</code>里面会返回可控的地址。</p>
+<p>具体利用原理在于：<br><img src="/images/20250818120003.png"><br>这里src只有48字节大小，但是在<code>AddLog</code>里面可以输入128字节，可以构造栈溢出，然后在<code>GetFlag</code>里面利用。因为<code>GetFlag</code>里面会返回可控的地址。</p>
 <h1 id="铁人三项-第五赛区-2018-rop"><a href="#铁人三项-第五赛区-2018-rop" class="headerlink" title="铁人三项(第五赛区)_2018_rop"></a>铁人三项(第五赛区)_2018_rop</h1><p>简单的ROP，泄露<code>libc</code>就可以了。</p>
 <h1 id="pwn1-xctf"><a href="#pwn1-xctf" class="headerlink" title="pwn1(xctf)"></a>pwn1(xctf)</h1><p>64位动态链接，有Canary保护（第一次接触Canary保护的题目）</p>
 <pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
@@ -716,7 +716,7 @@ p.interactive()
 </code></pre>
 <p>我的<code>exp</code>里泄露了两次<code>canary</code>，我以为重新返回<code>main</code>后canary会更新。这个是我从<code>canary</code>的原理是自己理解的。但实际上从汇编调用可以知道，返回<code>main</code>后仍然将<code>var_8</code>和<code>fs+0x28</code>进行比较，<code>var_8</code>在这个过程并没有发生改变。</p>
 <h1 id="bjdctf-2020-babystack2"><a href="#bjdctf-2020-babystack2" class="headerlink" title="bjdctf_2020_babystack2"></a>bjdctf_2020_babystack2</h1><p>64位动态链接程序，先用IDA看，发现有整数溢出的问题，然后应该就是简单ROP了</p>
-<p>![[Pasted image 20250819164230.png]]</p>
+<p><img src="/images/20250819164230.png"></p>
 <p>整数溢出用-1来绕过，因为后面转成了<code>unsigned int</code>，所以可以<code>read</code>很多字符</p>
 <pre><code class="language-python">from pwn import *
 context.arch=&#39;amd64&#39;
@@ -753,7 +753,7 @@ p.interactive()
     PIE:        No PIE (0x8048000)
     Stripped:   No
 </code></pre>
-<p>放到<code>IDA</code>里看一下<br>![[Pasted image 20250819170420.png]]<br>往<code>buf</code>里面输入内容，然后输出输入的内容，并且输出x，x是已经给定的值，那就<code>read</code>来ROP劫持到<code>if</code>块内部吧，先搞定<code>canary</code>![[Pasted image 20250819170734.png]]<br>可以看到canary在<code>buf + 0x50</code>的位置，选择将最低位<code>\x00</code>覆盖以全部打印的方式，从而泄露<code>canary</code>，<del>然后再重新劫持即可。</del><br>不对，这里发现一个问题，程序只会走一遍。如果不覆盖canary没法再次读从而进行ROP劫持了，并且<code>read(0, buf, 0x50</code>，长度不够，是不允许ROP的。但是是<code>printf</code>，考虑格式化字符串吧，但是没学过，现学一下（笑）。</p>
+<p>放到<code>IDA</code>里看一下<br><img src="/images/20250819170420.png"><br>往<code>buf</code>里面输入内容，然后输出输入的内容，并且输出x，x是已经给定的值，那就<code>read</code>来ROP劫持到<code>if</code>块内部吧，先搞定<code>canary</code><img src="/images/20250819170734.png"><br>可以看到canary在<code>buf + 0x50</code>的位置，选择将最低位<code>\x00</code>覆盖以全部打印的方式，从而泄露<code>canary</code>，<del>然后再重新劫持即可。</del><br>不对，这里发现一个问题，程序只会走一遍。如果不覆盖canary没法再次读从而进行ROP劫持了，并且<code>read(0, buf, 0x50</code>，长度不够，是不允许ROP的。但是是<code>printf</code>，考虑格式化字符串吧，但是没学过，现学一下（笑）。</p>
 <pre><code class="language-python">from pwn import *
 context.arch=&#39;amd64&#39;
 # Local = True
@@ -779,14 +779,14 @@ payload=b&quot;%4c%13$n&quot; + p32(x_addr)
 p.sendline(payload)
 p.interactive()
 </code></pre>
-<p>要先试出来printf第一个可打印参数的位置，方式为：<br>![[Pasted image 20250820112254.png]]<br>可以看到aaaa再次被打印的位置为第11个%p，所以第一个参数的位置是11，然后要往<code>x_addr</code>里写，<code>x_addr</code>是第13个参数。<br>用<code>%n</code>，写入内容为已打印字符的个数。</p>
+<p>要先试出来printf第一个可打印参数的位置，方式为：<br><img src="/images/20250820112254.png"><br>可以看到aaaa再次被打印的位置为第11个%p，所以第一个参数的位置是11，然后要往<code>x_addr</code>里写，<code>x_addr</code>是第13个参数。<br>用<code>%n</code>，写入内容为已打印字符的个数。</p>
 <p>可以看到代码中我注释掉了一个payload，我刚开始用的就是第一个payload，直接打出4个a来表示x长度，但是没打通，然后调了一下，确定x的值是在下面的内容中被更改了：</p>
 <pre><code class="language-bash">0xf7db3ab4 &lt;printf+36&gt;    call   __vfprintf_internal         &lt;__vfprintf_internal&gt;
 </code></pre>
 <p>里面具体发生了什么？<br>一步一步调，发现是这个函数触发了</p>
 <pre><code class="language-bash">printf_positional
 </code></pre>
-<p>![[Pasted image 20250820150937.png]]<br>这里有很多次循环，每次循环对<code>ebx</code>+1，然后对<code>edi</code>作处理<br>![[Pasted image 20250820151143.png]]<br>当ebx循环到13的时候，循环应该是结束了，然后开始一系列奇怪的操作（我没看懂XD），紧接着突然有一步：<br>![[Pasted image 20250820151654.png]]<br>可以看到给x赋值这步出现了，现在需要重新来看仔细看一下在这之前都发生了什么。进入<code>printf_positional</code>后，给<code>*printf_positional+859</code>打断点，可以看到确实是循环，直到<code>ebx=13</code>为止，看上去很像我们传入的<code>payload = b&quot;%4c%13$n&quot; + p32(x_addr)</code>，给第13个参数赋值。<br>![[Pasted image 20250820152359.png]]<br>粘出上面这张图是因为我发现这张图我能看懂（bushi<br>eax左移四位，然后去eax+ecx地址处的值存入eax，发现ecx+eax不就是刚开始<code>printf</code>栈上第13个参数吗（给x赋值为3的）<br>![[Pasted image 20250820152641.png]]<br>然后就在这里水灵灵的给x赋值了（bushi，我怎么没注意到栈里啥时候多了个4啊，<code>ebp+0x10</code>的值什么时候变成4了）</p>
+<p><img src="/images/20250820150937.png"><br>这里有很多次循环，每次循环对<code>ebx</code>+1，然后对<code>edi</code>作处理<br><img src="/images/20250820151143.png"><br>当ebx循环到13的时候，循环应该是结束了，然后开始一系列奇怪的操作（我没看懂XD），紧接着突然有一步：<br><img src="/images/20250820151654.png"><br>可以看到给x赋值这步出现了，现在需要重新来看仔细看一下在这之前都发生了什么。进入<code>printf_positional</code>后，给<code>*printf_positional+859</code>打断点，可以看到确实是循环，直到<code>ebx=13</code>为止，看上去很像我们传入的<code>payload = b&quot;%4c%13$n&quot; + p32(x_addr)</code>，给第13个参数赋值。<br><img src="/images/20250820152359.png"><br>粘出上面这张图是因为我发现这张图我能看懂（bushi<br>eax左移四位，然后去eax+ecx地址处的值存入eax，发现ecx+eax不就是刚开始<code>printf</code>栈上第13个参数吗（给x赋值为3的）<br><img src="/images/20250820152641.png"><br>然后就在这里水灵灵的给x赋值了（bushi，我怎么没注意到栈里啥时候多了个4啊，<code>ebp+0x10</code>的值什么时候变成4了）</p>
 <p>找到了一篇比较好的文章描述<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-285054.htm#msg_header_h2_1">printf</a>函数的内部机制</p>
 <p>libc 是&#x3D;&#x3D;GNU C Library&#x3D;&#x3D;的缩写，是GNU 发布的C 标准库，也是Linux 系统中最常用的C 语言运行时库(runtime library)。它为开发人员提供了大量的API，包括系统调用封装和标准C 库函数，是许多程序运行的基础。</p>
 <p>GLibC通过<code>ldbl_strong_alias</code>将<code>printf</code>设置成了<code>__printf</code>的别名。</p>
@@ -959,7 +959,7 @@ p.interactive()
     Stripped:   No
 </code></pre>
 <p>只开了NX</p>
-<p>![[Pasted image 20250821093547.png]]</p>
+<p><img src="/images/20250821093547.png"></p>
 <p>可以看到会将写的最后一个字符给改为0，如果只ROP到<code>return addr</code>，会改掉，多打一个字符就行(猜测)，同样要<code>libc</code>泄漏</p>
 <p>程序里面没有<code>puts</code>，有<code>printf</code>。做到这里发现对栈溢出的操作了解还是太少了，于是做个[总结]吧</p>
 <p>利用<code>printf</code>作泄漏，构造<code>printf(&quot;%s&quot;, got[read])</code></p>
@@ -1020,7 +1020,7 @@ p.interactive()
 </code></pre>
 <p>flag</p>
 <h1 id="X-CTF-Quals-2016-b0verfl0w-Stack-Pivoting"><a href="#X-CTF-Quals-2016-b0verfl0w-Stack-Pivoting" class="headerlink" title="X-CTF Quals 2016 - b0verfl0w [Stack Pivoting]"></a>X-CTF Quals 2016 - b0verfl0w [Stack Pivoting]</h1><p>^f9bd12</p>
-<p>32位动态链接程序：<br>![[Pasted image 20250821114711.png]]<br>溢出长度只有0x10字节，不够放一般的<code>shellcode</code>，所以考虑将shellcode写到栈上，然后利用一些方式做栈迁移。这道题中有一个<code>gadget</code>为：<code>jmp esp</code>，所以可以想办法修改<code>esp</code>使得<code>esp</code>指向<code>shellcode</code>所在的位置。但是<code>shellcode</code>所在位置为<code>return_addr - 0x24</code>，所以将返回地址先改为<code>jmp esp</code>，然后下一个栈帧改为<code>sub esp, 0x28; jmp esp</code>，就能够跳到<code>s</code>的位置，即我们输入<code>shellcode</code>的地方。</p>
+<p>32位动态链接程序：<br><img src="/images/20250821114711.png"><br>溢出长度只有0x10字节，不够放一般的<code>shellcode</code>，所以考虑将shellcode写到栈上，然后利用一些方式做栈迁移。这道题中有一个<code>gadget</code>为：<code>jmp esp</code>，所以可以想办法修改<code>esp</code>使得<code>esp</code>指向<code>shellcode</code>所在的位置。但是<code>shellcode</code>所在位置为<code>return_addr - 0x24</code>，所以将返回地址先改为<code>jmp esp</code>，然后下一个栈帧改为<code>sub esp, 0x28; jmp esp</code>，就能够跳到<code>s</code>的位置，即我们输入<code>shellcode</code>的地方。</p>
 <p>常见的<code>shellcode</code>可以在<a target="_blank" rel="noopener" href="https://shell-storm.org/shellcode/index.html">这里</a>寻找</p>
 <p>最后的代码为：</p>
 <pre><code class="language-python">from pwn import *
@@ -1181,7 +1181,7 @@ sl(payload)
 p.interactive()
 </code></pre>
 <p>因为一直没找到<code>libc</code>，远程打不通，本地还是很好打的</p>
-<h1 id="wustctf2020-getshell"><a href="#wustctf2020-getshell" class="headerlink" title="wustctf2020_getshell"></a>wustctf2020_getshell</h1><p>32位，只开启 NX enable<br>![[Pasted image 20250827151704.png]]<br>只能溢出8字节，后门函数为<code>shell</code>。</p>
+<h1 id="wustctf2020-getshell"><a href="#wustctf2020-getshell" class="headerlink" title="wustctf2020_getshell"></a>wustctf2020_getshell</h1><p>32位，只开启 NX enable<br><img src="/images/20250827151704.png"><br>只能溢出8字节，后门函数为<code>shell</code>。</p>
 <pre><code class="language-python">from pwn import *
 context.update(arch=&#39;i386&#39;, os=&#39;Linux&#39;)
 p = remote(&#39;node5.buuoj.cn&#39;, 29329)
@@ -1223,7 +1223,7 @@ p.interactive()
 <h1 id="ciscn-2019-s-3"><a href="#ciscn-2019-s-3" class="headerlink" title="ciscn_2019_s_3"></a>ciscn_2019_s_3</h1><p>64位，只开启了NX保护</p>
 <pre><code class="language-python">
 </code></pre>
-<p>![[Pasted image 20250828091840.png]]<br><code>call function_addr</code> 会将下一条指令压栈，然后跳转到函数地址开始执行。我这里传入了<code>ret</code>，所以最终栈的结构不变，也不会影响ROP链。<br>![[Pasted image 20250828092130.png]]<br>下图是执行完<code>call qword ptr [r12]</code>的结果<br>![[Pasted image 20250828091932.png]]<br>这个题目是近期做的相对比较麻烦的，利用思路比较简单，但有一些细节需要注意，中间遇到了几个点：</p>
+<p><img src="/images/20250828091840.png"><br><code>call function_addr</code> 会将下一条指令压栈，然后跳转到函数地址开始执行。我这里传入了<code>ret</code>，所以最终栈的结构不变，也不会影响ROP链。<br><img src="/images/20250828092130.png"><br>下图是执行完<code>call qword ptr [r12]</code>的结果<br><img src="/images/20250828091932.png"><br>这个题目是近期做的相对比较麻烦的，利用思路比较简单，但有一些细节需要注意，中间遇到了几个点：</p>
 <ol>
 <li>ret2csu之后，对参数设置，由于是<code>mov edi, r15d</code>，所以其实<code>/bin/sh</code>的地址在这个时候是传不过来的，需要在后面再次传一下。</li>
 <li><code>call qword pttr [r12 + rbp*8]</code>这一步，r12存的是一个函数的中间地址。<code>call</code>是将地址压栈，然后跳转到函数地址开始执行。这里选择了直接传了一个<code>ret</code>，可以让栈上结构不变，然后接着ROP后面的过程。</li>
@@ -1353,7 +1353,7 @@ payload = b&#39;/bin/sh\x00&#39; + p64(ret) + (0x10 - len(&#39;/bin/sh\x00&#39;)
 sl(payload)
 p.interactive()
 </code></pre>
-<h1 id="ez-pz-hackover-2016"><a href="#ez-pz-hackover-2016" class="headerlink" title="ez_pz_hackover_2016"></a>ez_pz_hackover_2016</h1><p>![[Pasted image 20250828114214.png]]</p>
+<h1 id="ez-pz-hackover-2016"><a href="#ez-pz-hackover-2016" class="headerlink" title="ez_pz_hackover_2016"></a>ez_pz_hackover_2016</h1><p><img src="/images/20250828114214.png"></p>
 <pre><code class="language-python">from pwn import *
 from LibcSearcher import *
 
@@ -1489,7 +1489,7 @@ payload = b&#39;crashme\x00&#39; + b&#39;a&#39; * (0x16 - len(b&#39;crashme\x00&
 sl(payload)
 p.interactive()
 </code></pre>
-<h1 id="mrctf2020-shellcode"><a href="#mrctf2020-shellcode" class="headerlink" title="mrctf2020_shellcode"></a>mrctf2020_shellcode</h1><p>![[Pasted image 20250828150010.png]]<br>第一次见到开启了<code>PIE</code>保护的题目，但是这个题没办法反编译，直接看汇编，就是读一段字符，传到<code>buf</code>里面，然后直接<code>call [rbp + buf]</code>，鉴定为脑残题，写一段<code>shellcode</code>进去就行了，我还以为要爆一下<code>libc</code>，激动坏了第一次在<code>buu</code>上看到类似的题目。</p>
+<h1 id="mrctf2020-shellcode"><a href="#mrctf2020-shellcode" class="headerlink" title="mrctf2020_shellcode"></a>mrctf2020_shellcode</h1><p><img src="/images/20250828150010.png"><br>第一次见到开启了<code>PIE</code>保护的题目，但是这个题没办法反编译，直接看汇编，就是读一段字符，传到<code>buf</code>里面，然后直接<code>call [rbp + buf]</code>，鉴定为脑残题，写一段<code>shellcode</code>进去就行了，我还以为要爆一下<code>libc</code>，激动坏了第一次在<code>buu</code>上看到类似的题目。</p>
 <pre><code class="language-python">from pwn import *
 from LibcSearcher import *
 
@@ -1774,7 +1774,7 @@ p.interactive()
 </ul>
 <p>这里有一些在内核中与用户态函数发挥作用相同的函数：</p>
 <p>memcpy() -&gt; <strong>copy_from_user()&#x2F;copy_to_user()</strong><br>    - copy_from_user() 实现了将用户空间的数据传送到内核空间<br>    - copy_to_user()<br>malloc() -&gt; <strong>kmalloc()</strong>，内核态的内存分配函数，和 malloc() 相似，但使用的是 <code>slab/slub 分配器</code><br>free() -&gt; <strong>kfree()</strong>，同 kmalloc()</p>
-<p>![[Pasted image 20250902203717.png]]<br>这里<code>kfree</code>掉之后并没有将指针置空，所以存在典型的UAF<br>![[Pasted image 20250902204516.png]]<br>这里有一个问题，offset可以是负的，可以从内核中读任意大小的size到用户态并且写出来。这就可以直接从chunk地址中读flag了。</p>
+<p><img src="/images/20250902203717.png"><br>这里<code>kfree</code>掉之后并没有将指针置空，所以存在典型的UAF<br><img src="/images/20250902204516.png"><br>这里有一个问题，offset可以是负的，可以从内核中读任意大小的size到用户态并且写出来。这就可以直接从chunk地址中读flag了。</p>
 <p>exp如下：</p>
 <pre><code class="language-C">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -1879,7 +1879,7 @@ p.interactive()
 &#125;
 </code></pre>
 <p>在<code>fill</code>函数中有一个堆溢出，可以写任意<code>size</code>的内容到<code>addr</code>处，因此</p>
-<p>![[Pasted image 20250903153014.png]]</p>
+<p><img src="/images/20250903153014.png"></p>
 <p>洞基本找到了，但是发现不会利用～<br>还是对堆的基本操作和原理不是很清晰。最近就拿这个题来熟悉一下堆实现的具体操作和原理吧</p>
 <h1 id="Asis-CTF-2016-b00ks"><a href="#Asis-CTF-2016-b00ks" class="headerlink" title="Asis CTF 2016 b00ks"></a>Asis CTF 2016 b00ks</h1><p>堆题，保护开启情况：</p>
 <pre><code class="language-bash">[*] &#39;/home/spongebob/Document/pwn/pwn&#39;
@@ -1889,7 +1889,7 @@ p.interactive()
     NX:         NX enabled
     PIE:        PIE enabled
 </code></pre>
-<p>![[Pasted image 20250903150722.png]]<br>这里自定义的<code>my_read</code>函数回读size+1个字符才<code>break</code>掉，因为</p>
+<p><img src="/images/20250903150722.png"><br>这里自定义的<code>my_read</code>函数回读size+1个字符才<code>break</code>掉，因为</p>
 <pre><code class="language-c">if(i==size)
 	break;
 </code></pre>
