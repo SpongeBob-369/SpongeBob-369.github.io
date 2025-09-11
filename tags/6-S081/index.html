@@ -3,7 +3,7 @@
 <html lang="cn">
 <head>
     <meta charset="utf-8" />
-    <title>CVE-2025-32462 | SpongeBobの pineapple house</title>
+    <title>Tags: 6.S081 | SpongeBobの pineapple house</title>
     <meta name="author" content="SpongeBob" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -42,10 +42,6 @@
 
 
 <script src="/js/lib/preview.js"></script>
-
-
-
-
 
 
 
@@ -173,121 +169,187 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>CVE-2025-32462</h1>
-    </div>
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/7/21
+            <div id="archives">
+    
+    <div class="categories-tags">
+        
+        
+        
+        <span>
+            <a href="/tags/Linux/" style="background: #03a9f4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Linux
+            </a>
         </span>
         
-        <span class="category">
-            <a href="/categories/CVE/">
+        
+        
+        <span>
+            <a href="/tags/io-uring/" style="background: #ffa2c4">
                 <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                io_uring
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/EXP/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                EXP
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/CVE/" style="background: #03a9f4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
                 </span>
                 CVE
             </a>
         </span>
         
         
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/Linux/" style="color: #ffa2c4">
-                    Linux
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/EXP/" style="color: #00a596">
-                    EXP
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/sudo/" style="color: #00bcd4">
-                    sudo
-                </a>
-            </span>
-            
+        
+        <span>
+            <a href="/tags/OOB/" style="background: #ff7d73">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                OOB
+            </a>
         </span>
         
-    </div>
-    
-    <div class="content" v-pre>
-        <!-- the content I add -->        
         
-    <div id="toc">
-        <strong class="sidebar-title">目录(跳转功能开发ing）</strong>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">cve-2025-32462</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">sudoer.d编写规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">影响</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">复现过程</span></a></li></ol></li></ol></li></ol>
+        
+        <span>
+            <a href="/tags/sudo/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                sudo
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/OS/" style="background: #00a596">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                OS
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/MIT/" style="background: #ff7d73">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                MIT
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/6-S081/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                6.S081
+            </a>
+        </span>
+        
+        
+        
+        
+        
+        <span>
+            <a href="/tags/ctf/" style="background: #00a596">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                ctf
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/pwn/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                pwn
+            </a>
+        </span>
+        
+        
     </div>
-
-
-        <h1><span id="cve-2025-32462">cve-2025-32462</span></h1>
-<p><a target="_blank" rel="noopener" href="https://github.com/sudo-project/sudo/blob/SUDO_1_8_8/NEWS">sudo/NEWS at SUDO_1_8_8 · sudo-project/sudo · GitHub</a></p>
-<p>sudo -h(–host)的文档里 写了-h 只与-l可以相连使用。后期更新的时候让sudo -h可以和-e，-i等一起使用</p>
-<span id="more"></span>
-<p>sudo --host(-h) &lt;username&gt; -l(–list)</p>
-<p><code>/etc/sudoer.d</code>用于查看一个用户在系统中拥有什么权限。这个权限有可能被越过，让一个用户能够在某一系统的权限提升到另一个系统上可能拥有的权限。对于在多台计算机之间共享单个sudoers配置文件或使用基于网络的用户目录（如LDAP）来提供系统sudoers规则的系统尤其有影响。</p>
-<p>总结来说：sudo的 <code>h/--host</code>  选项未遵循最小权限原则，在非<code>-l</code>场景（如命令执行）中未验证主机规则边界。攻击者可以在<code>/etc/sudoer.d</code>文件中配置恶意规则</p>
-<h3><span id="sudoerd编写规则">sudoer.d编写规则</span></h3>
-<p>&lt; user &gt; &lt; pc &gt; = [字段1]  [字段2]  [字段3]</p>
-<p>用户<code>user</code>可以在主机<code>pc</code>上…<br>
-字段一表示对哪些用户/组，格式为： （users: groups）<br>
-字段二表示是否需要密码<br>
-字段三表示可以执行的命令</p>
-<p>example:</p>
-<ul>
-<li>ubuntu  fakehost=(root)  NOPASSWD : ALL</li>
-</ul>
-<h3><span id="影响">影响</span></h3>
-<p>主要影响那些在多台机器上使用同一份 sudoers 文件的系统管理员的系统。</p>
-<h3><span id="条件">条件</span></h3>
-<p>漏洞攻击需要满足两个要求</p>
-<ul>
-<li>
-<p>攻击者获得一个已验证的用户</p>
-</li>
-<li>
-<p>系统非默认配置，依赖于sudoers文件中存在的额外规则</p>
-</li>
-</ul>
-<p>例子：</p>
-<p>sudoers文件包含定义该用户在不同系统上权限的规则。</p>
-<p>Alice hostA: some Privilege</p>
-<p>Bob hostB: some Privilege</p>
-<p>Bob logs into hostA, then run command <code>sudo -h hostB commandA</code></p>
-<h3><span id="复现过程">复现过程</span></h3>
-<pre><code class="language-bash">git clone https://github.com/SpongeBob-369/cve-2025-32462.git
-cd cve-2025-32462
-chmod +x run.sh
-./run.sh
-# after entering the contain Ubuntu
-sudo -l
-# then prompt you to enter your password, but &quot;we&quot; don't know.
-sudo -l -h fakehost    # Check the permissions user ubuntu have in host named  fakehost
-sudo -i -h fakehost    # get root
-</code></pre>
-
+    
+    <div class="timeline">
+        <div class="timeline-tail"></div>
+        <div class="timeline-content">
+            <div class="item-time">2025/9/11</div>
+            <a href="/2025/09/11/MIT-OS-Chp1/">
+                <h3>MIT_OS_Chp1</h3>
+            </a>
+            <div class="info">
+                
+                <span class="category">
+                    <a href="/categories/OS/">
+                        <span class="icon">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </span>
+                        OS
+                    </a>
+                </span>
+                
+                
+                <span class="tags">
+                    <span class="icon">
+                        <i class="fa-solid fa-tags fa-fw"></i>
+                    </span>
+                    
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/OS/" style="color: #ff7d73">
+                            OS
+                        </a>
+                    </span>
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/MIT/" style="color: #ffa2c4">
+                            MIT
+                        </a>
+                    </span>
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/6-S081/" style="color: #03a9f4">
+                            6.S081
+                        </a>
+                    </span>
+                    
+                </span>
+                
+            </div>
+        </div>
     </div>
-    
-    
-    
-    
-    
-    
     
 </div>
 
@@ -322,12 +384,6 @@ sudo -i -h fakehost    # get root
     <script src="/js/fireworks.min.js"></script>
     <script src="/js/cursor.min.js"></script>
     <script src="/js/main.js"></script>
-    
-    
-
-
-
-
     
 </body>
 </html>

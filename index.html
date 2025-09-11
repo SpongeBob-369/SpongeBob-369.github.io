@@ -200,6 +200,66 @@
         
 
 <div class="post">
+    <a href="/2025/09/11/MIT-OS-Chp1/">
+        <h2 class="post-title">MIT_OS_Chp1</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/OS/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                OS
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/11
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1>OS interface</h1>
+<p><code>xv6</code>是一个 <code>Unix</code> 操作系统，分为用户空间和内核空间。当一个进程需要发起一个kernel service的时候，就执行一个系统i调用，是一个OS inerface。</p>
+<p><code>shell</code> 和一些其他的用户态进程均运行在用户态空间。 <code>kernel</code> 使用CPU提供的硬件保护机制，来确保每一个在用户空间执行的进程都只能接触到它自己的内从空间。内核拥有着需要向这些硬件保护许可的执行权限，而用户没有这些权限。</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/OS/" style="color: #ffa2c4">OS</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/MIT/" style="color: #ff7d73">MIT</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/6-S081/" style="color: #03a9f4">6.S081</a>
+        </span>
+        
+    </div>
+    <a href="/2025/09/11/MIT-OS-Chp1/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/09/10/picture-try/">
         <h2 class="post-title">picture_try</h2>
     </a>
@@ -258,7 +318,8 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="jarvisoj-level2-x64（2025-8-10）"><a href="#jarvisoj-level2-x64（2025-8-10）" class="headerlink" title="jarvisoj_level2_x64（2025.8.10）"></a>jarvisoj_level2_x64（2025.8.10）</h1><p>看上去是个很简单的栈溢出，有<code>system</code>函数，也有字符串<code>/bin/sh</code></p>
+            <h1>jarvisoj_level2_x64（2025.8.10）</h1>
+<p>看上去是个很简单的栈溢出，有<code>system</code>函数，也有字符串<code>/bin/sh</code></p>
             
         </div>
     </div>
@@ -272,12 +333,12 @@
         
         <span class="tag">
             
-            <a href="/tags/ctf/" style="color: #ff7d73">ctf</a>
+            <a href="/tags/ctf/" style="color: #ffa2c4">ctf</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+            <a href="/tags/pwn/" style="color: #03a9f4">pwn</a>
         </span>
         
     </div>
@@ -314,7 +375,8 @@
             <blockquote>
 <p>需要先了解一些前置知识</p>
 </blockquote>
-<h3 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a><code>volatile</code></h3><p>指定变量不能被编译器优化，每次使用都必须从地址直接取值。否则，编译器优化后可能将变量值放入寄存器中来取值。</p>
+<h3 id="volatile"><code>volatile</code></h3>
+<p>指定变量不能被编译器优化，每次使用都必须从地址直接取值。否则，编译器优化后可能将变量值放入寄存器中来取值。</p>
             
         </div>
     </div>
@@ -328,17 +390,17 @@
         
         <span class="tag">
             
-            <a href="/tags/Linux/" style="color: #00bcd4">Linux</a>
+            <a href="/tags/Linux/" style="color: #ff7d73">Linux</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/io-uring/" style="color: #ff7d73">io_uring</a>
+            <a href="/tags/io-uring/" style="color: #00bcd4">io_uring</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CVE/" style="color: #00a596">CVE</a>
+            <a href="/tags/CVE/" style="color: #ff7d73">CVE</a>
         </span>
         
     </div>
@@ -372,7 +434,9 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="CVE-2023-2598"><a href="#CVE-2023-2598" class="headerlink" title="CVE-2023-2598"></a>CVE-2023-2598</h1><h2 id="what’s-io-uring"><a href="#what’s-io-uring" class="headerlink" title="what’s io_uring?"></a>what’s io_uring?</h2><p>​	<code>io_uring</code> is a system call interface for Linux. It has supported almost all system call so far, not only <code>read()</code> and <code>write</code> initially. It enables an application to initiate system calls that can be performed asynchronously.</p>
+            <h1>CVE-2023-2598</h1>
+<h2 id="what’s-io-uring">what’s io_uring?</h2>
+<p>​	<code>io_uring</code> is a system call interface for Linux. It has supported almost all system call so far, not only <code>read()</code> and <code>write</code> initially. It enables an application to initiate system calls that can be performed asynchronously.</p>
             
         </div>
     </div>
@@ -386,12 +450,7 @@
         
         <span class="tag">
             
-            <a href="/tags/Linux/" style="color: #ffa2c4">Linux</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/EXP/" style="color: #00bcd4">EXP</a>
+            <a href="/tags/Linux/" style="color: #00a596">Linux</a>
         </span>
         
         <span class="tag">
@@ -401,12 +460,17 @@
         
         <span class="tag">
             
-            <a href="/tags/CVE/" style="color: #ffa2c4">CVE</a>
+            <a href="/tags/EXP/" style="color: #00bcd4">EXP</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/OOB/" style="color: #00a596">OOB</a>
+            <a href="/tags/CVE/" style="color: #03a9f4">CVE</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/OOB/" style="color: #ffa2c4">OOB</a>
         </span>
         
     </div>
@@ -440,7 +504,8 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="cve-2025-32462"><a href="#cve-2025-32462" class="headerlink" title="cve-2025-32462"></a>cve-2025-32462</h1><p><a target="_blank" rel="noopener" href="https://github.com/sudo-project/sudo/blob/SUDO_1_8_8/NEWS">sudo&#x2F;NEWS at SUDO_1_8_8 · sudo-project&#x2F;sudo · GitHub</a></p>
+            <h1>cve-2025-32462</h1>
+<p><a target="_blank" rel="noopener" href="https://github.com/sudo-project/sudo/blob/SUDO_1_8_8/NEWS">sudo/NEWS at SUDO_1_8_8 · sudo-project/sudo · GitHub</a></p>
 <p>sudo -h(–host)的文档里 写了-h 只与-l可以相连使用。后期更新的时候让sudo -h可以和-e，-i等一起使用</p>
             
         </div>
@@ -455,17 +520,17 @@
         
         <span class="tag">
             
-            <a href="/tags/Linux/" style="color: #00bcd4">Linux</a>
+            <a href="/tags/Linux/" style="color: #03a9f4">Linux</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/sudo/" style="color: #ff7d73">sudo</a>
+            <a href="/tags/EXP/" style="color: #00a596">EXP</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/EXP/" style="color: #ffa2c4">EXP</a>
+            <a href="/tags/sudo/" style="color: #ffa2c4">sudo</a>
         </span>
         
     </div>
@@ -521,6 +586,15 @@
                     <!-- 点击弹出二维码 -->
                     <a href="javascript:void(0)" class="qr-trigger" data-img="/./images/Wechat_qr.jpg">
                         <i class="fa-brands fa-weixin fa-fw"></i>
+                    </a>
+                
+            </span>
+            
+            <span class="icon-link">
+                
+                    <!-- 点击弹出二维码 -->
+                    <a href="javascript:void(0)" class="qr-trigger" data-img="/./images/valorant_qr.jpg">
+                        <i class="fa-solid fa-gamepad fa-fw"></i>
                     </a>
                 
             </span>
