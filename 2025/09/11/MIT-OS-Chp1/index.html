@@ -1,0 +1,710 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="SpongeBob">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="OS interfacexv6是一个 Unix 操作系统，分为用户空间和内核空间。当一个进程需要发起一个kernel service的时候，就执行一个系统i调用，是一个OS inerface。 shell 和一些其他的用户态进程均运行在用户态空间。 kernel 使用CPU提供的硬件保护机制，来确保每一个在用户空间执行的进程都只能接触到它自己的内从空间。内核拥有着需要向这些硬件保护许可的执行权限，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT_OS_Chp1">
+<meta property="og:url" content="http://spongebob-369.github.io/2025/09/11/MIT-OS-Chp1/index.html">
+<meta property="og:site_name" content="SpongeBobの pineapple house">
+<meta property="og:description" content="OS interfacexv6是一个 Unix 操作系统，分为用户空间和内核空间。当一个进程需要发起一个kernel service的时候，就执行一个系统i调用，是一个OS inerface。 shell 和一些其他的用户态进程均运行在用户态空间。 kernel 使用CPU提供的硬件保护机制，来确保每一个在用户空间执行的进程都只能接触到它自己的内从空间。内核拥有着需要向这些硬件保护许可的执行权限，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-09-11T12:31:22.000Z">
+<meta property="article:modified_time" content="2025-09-17T13:14:33.698Z">
+<meta property="article:author" content="SpongeBob">
+<meta property="article:tag" content="OS">
+<meta property="article:tag" content="MIT">
+<meta property="article:tag" content="6.S081">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>MIT_OS_Chp1 - SpongeBobの pineapple house</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"spongebob-369.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MIT_OS_Chp1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-11 20:31" pubdate>
+          September 11, 2025 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MIT_OS_Chp1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="OS-interface"><a href="#OS-interface" class="headerlink" title="OS interface"></a>OS interface</h1><p><code>xv6</code>是一个 <code>Unix</code> 操作系统，分为用户空间和内核空间。当一个进程需要发起一个kernel service的时候，就执行一个系统i调用，是一个OS inerface。</p>
+<p><code>shell</code> 和一些其他的用户态进程均运行在用户态空间。 <code>kernel</code> 使用CPU提供的硬件保护机制，来确保每一个在用户空间执行的进程都只能接触到它自己的内从空间。内核拥有着需要向这些硬件保护许可的执行权限，而用户没有这些权限。</p>
+<span id="more"></span>
+<h2 id="Processes-and-memory"><a href="#Processes-and-memory" class="headerlink" title="Processes and memory"></a>Processes and memory</h2><p>xv6下的每一个进程都含有用户空间内存（包括指令，数据和栈空间）和独属于内核的进程状态信息。Xv6分时进程：将等待执行的进程透明的分给空闲的CPU。进程不执行的时候，xv6系统会讲CPU的寄存器信息保存起来，并且在下一次执行的时候重新恢复。</p>
+<p>内核对每一个进程都有一个相关的进程描述符（PID）</p>
+<p>一个进程可以通过 <code>fork</code> 创建一个新的进程（系统调用）， <code>fork</code>会给新的进程一个完全相同的内存内容（包括指令和数据），对于新进程和原本的进程都会有返回值。返回给原本进程新进程的PID，新进程会返回0，可以视作父进程和子进程。</p>
+<p><code>exit</code> 系统调用会让当前进程停止执行，并且释放内存，打开的文件等资源。 <code>exit</code> 需要一个整数参数，0表示正常退出，1表示异常退出。</p>
+<p><code>wait</code> 系统调用会返回当前进程的子进程的PID，并且会复制子进程 <code>exit</code> 的状态信息给等待者。如果调用者的所有子进程都没有离开，那么 <code>wait</code> 将会等待知道有子进程退出。如果当前进程没有子进程，就会立马返回-1。</p>
+<p>尽管父子进程有相同的内存和寄存器，但实际上运行在不同的内存空间，使用不同的寄存器。其中一个改变并不会影响另一个。</p>
+<p><code>exec</code>系统调用将会用一个从文件系统中的文件加载来的全新的内存代替当前进程的内存。这个文件必须有特殊的文件格式，开始于一个指令，并且只包含指令和数据信息。这个系统调用不再会返回原先的进程，从文件中加载的指令将会根据ELF头中的 <code>entry point</code> 来开始执行。 <code>exec</code>需要两个参数：包含可执行部分的文件名和字符串数组。</p>
+<p>xv6 shell 使用上述调用来代表用户运行程序。shell 的主要结构很简单；参见 main (user&#x2F;sh.c:145)。主循环使用 getcmd 读取用户的一行输入。然后调用 fork 函数，创建 shell 进程的副本。父进程调用 wait 函数，而子进程则运行命令。例如，如果用户在 shell 中输入了“echo hello”，则 runcmd 函数将被调用，并以“echo hello”作为参数。runcmd (user&#x2F;sh.c:58) 运行实际命令。对于“echo hello”，它将调用 exec (user&#x2F;sh.c:78)。如果 exec 执行成功，则子进程将执行 echo 中的指令，而不是 runcmd 中的指令。在某个时刻，echo 会调用 exit 函数，这将导致父进程从 main (user&#x2F;sh.c:145) 中的 wait 函数返回。</p>
+<p>您可能想知道为什么 fork 和 exec 函数不合并在一个调用中；我们稍后会看到，shell 在其 I&#x2F;O 重定向实现中利用了这种分离。为了避免创建重复进程然后立即替换（使用 exec）带来的浪费，操作系统内核针对此用例优化了 fork 的实现，并使用了虚拟内存技术，例如写时复制（参见 4.6 节）。</p>
+<p>xv6会隐性的申请大多数用户内存。比如： <code>fork</code> 子进程会复制父进程的memory， <code>exec</code> 会allocate足够的内存来放可执行文件。一些进程会申请很多运行时内存。</p>
+<h2 id="I-O-和文件描述符"><a href="#I-O-和文件描述符" class="headerlink" title="I&#x2F;O 和文件描述符"></a>I&#x2F;O 和文件描述符</h2><p><code>fd</code> 是一个内核管理的小型整数，一个进程可以从其中读&#x2F;写。一个进程可以通过打开一个文件，字典，设备或者创建一个管道来得到一个文件描述符。文件描述符接口和其他文件，管道以及设备是不同的，这让他们看起来像一串字节流。 I&#x2F;O指的是input&#x2F;output。</p>
+<p>内核使用文件描述符作为每个进程表的index，所以每个进程都有一个私有的文件描述符集合。0 as standard input，and 1 as standard output，2 as standard error。</p>
+<p>文件描述符的出现使得 <code>cat</code> 的实现变得非常的简单。因为 <code>cat</code> 并没有办法区分是从文件，终端还是管道中读取。</p>
+<p><code>close</code> 系统调用会释放一个文件描述符，使得他将来能够被 <code>open, pip, dup</code> 给重新使用。文件描述符的分配总是从当前未使用的最低数字开始。</p>
+<p><code>fork</code> 会复制父进程的 <code>fd table</code> ，而 <code>exec</code> 会代替父进程的内存，但是会保留 <code>fd table</code> 。这个过程中，父子进程所有的 <code>fd table</code> 都是独立的。虽然他们共享文件描述符表，这两个表是独立的。但是他们共享同一个偏移。得益于 <code>wait</code> 系统调用的实现，使得父子进程可以先后写入内容。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span>(fork() == <span class="hljs-number">0</span>)&#123;<br>	write(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;hello &quot;</span>, <span class="hljs-number">6</span>);<br>	<span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<span class="hljs-keyword">else</span>&#123;<br>	write(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;world\n&quot;</span>, <span class="hljs-number">6</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码可以成功打印出 <code>hello world</code> 到终端。</p>
+<p><code>dup</code> 系统调用可以复制一个已有的文件描述符指向同一个I&#x2F;O设备。这两个文件描述符拥有同样的文件偏移，就像 <code>fork</code> 的两个子进程共享文件描述符一样。</p>
+<p>example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> file1 file2 &gt; tmp1 2&gt;&amp;1<br></code></pre></td></tr></table></figure>
+
+<p>上面这条命令会将 <code>file1</code> 和 <code>file2</code> 的信息列出，原本标准output到终端，改为标准输出到文件tmp1，然后重定向 fd:2 → fd:1，即标准错误2也重定向到标准输出1，然后输出到tmp1文件中。</p>
+<p>所以将文件的标准输出以及错误全部都写入 <code>tmp1</code> 文件中。</p>
+<h2 id="Pipes"><a href="#Pipes" class="headerlink" title="Pipes"></a>Pipes</h2><p><code>pipe</code> 是内核暴露给进程的一小块缓冲区，以成对的方式出现，一个用来读，一个用来写。写数据到一个管道的一端，使得数据能够从管道的另一端进行读。 <code>pipe</code> 给进程间交互提供了一个方式。</p>
+<p><code>pipe[0]</code> 是读端， <code>pipe[1]</code> 是写端。如果没有字符写入， <code>pipe</code> 会一直等待直到有数据被写入，或者所有指向写端的文件描述符被关闭。</p>
+<p><code>shell</code> 中的管道符 <code>|</code> 会同时创建两个子进程，左边的子进程输出作为 <code>pipe</code> 的写端，右边子进程作为 <code>pipe</code> 的读端。这两个子进程是同时进行的，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sleep</span>(5) | <span class="hljs-built_in">echo</span> hi<br></code></pre></td></tr></table></figure>
+
+<p>上述命令会立刻输出 <code>hi</code>，而不会等待。</p>
+<h2 id="File-system"><a href="#File-system" class="headerlink" title="File system"></a>File system</h2><p>xv6的文件系统提供了数据文件，包含不可终端的字节数组和目录，这个目录包含数据文件的文件名和其他目录名，整个目录形成了一棵树。</p>
+<p><code>mkdir</code> 创建一个新的数据文件, <code>mknod</code>创建一个新的设备文件。 <code>mknod</code> 创建了一个属于设备的特殊文件，和设备文件相关的是主设备号和次设备号，他们唯一的标识的内核设备。</p>
+<p>文件的名字和文件本身是不同的。一个 <code>inode</code> 唯一的标识了一个实际的文件，包含这个文件的类型，长度，在硬盘中的位置以及有多少个 <code>link</code> 与它相关。一个实际的文件可以用多个 <code>link</code>  来进行链接。</p>
+<p>The fstat system call retrieves information from the inode that a file descriptor refers to. It<br>fills in a struct stat, defined in stat.h (kernel&#x2F;stat.h) as:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> T_DIR 1 <span class="hljs-comment">// Directory</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> T_FILE 2 <span class="hljs-comment">// File</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> T_DEVICE 3 <span class="hljs-comment">// Device</span></span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">stat</span> &#123;</span><br>	<span class="hljs-type">int</span> dev; <span class="hljs-comment">// File system’s disk device</span><br>	uint ino; <span class="hljs-comment">// Inode number</span><br>	<span class="hljs-type">short</span> type; <span class="hljs-comment">// Type of file</span><br>	<span class="hljs-type">short</span> nlink; <span class="hljs-comment">// Number of links to file</span><br>	uint64 size; <span class="hljs-comment">// Size of file in bytes</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><code>link</code> system call会创造一个新的文件名字来指向一个实际的文件（也可以是一个实际文件的link）</p>
+<p>对应的还有 <code>unlink</code> system call。从文件系统中移除一个文件的名字。当一个实际的文件没有 <code>link</code> 指向之后，会在所有相关它的进程结束之后从硬盘上彻底抹除～</p>
+<p><code>file utilities</code> 是Unix提供给shel的作为用户态的可调用程序。这个设计允许所有人都可以通过增加新的城区去拓展 <code>command-line</code> 接口。除了 <code>cd</code> ，被写入了shel的源代码中。</p>
+<h2 id="Exercises"><a href="#Exercises" class="headerlink" title="Exercises"></a>Exercises</h2><p>Write a program that uses UNIX system calls to “ping-pong” a byte between two processes<br>over a pair of pipes, one for each direction. Measure the program’s performance, in exchanges per second.</p>
+<p>我写的代码如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;time.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EXCHANGE_NUM 10000</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> ping <span class="hljs-string">&quot;ping&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> pong <span class="hljs-string">&quot;pong&quot;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-type">int</span> pipe_parent_to_child[<span class="hljs-number">2</span>]; <span class="hljs-comment">// parent write, child read;</span><br>    <span class="hljs-type">int</span> pipe_child_to_parent[<span class="hljs-number">2</span>]; <span class="hljs-comment">// child write, parent write;</span><br>    <span class="hljs-type">char</span> buf[<span class="hljs-number">5</span>];<br>    pipe(pipe_parent_to_child);<br>    pipe(pipe_child_to_parent);<br><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timespec</span> <span class="hljs-title">start</span>, <span class="hljs-title">end</span>;</span><br>    <span class="hljs-type">double</span> time_diff;<br>    clock_gettime(CLOCK_MONOTONIC, &amp;start);<br>    <span class="hljs-keyword">if</span>(fork() == <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-comment">// use pipe_child_to_parent[0] &amp; pipe_parent_to_child[1]</span><br>        close(pipe_child_to_parent[<span class="hljs-number">0</span>]);<br>        close(pipe_parent_to_child[<span class="hljs-number">1</span>]);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; EXCHANGE_NUM; i++)&#123;<br>            <span class="hljs-keyword">if</span>(write(pipe_child_to_parent[<span class="hljs-number">1</span>], pong, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>)&#123;<br>                perror(<span class="hljs-string">&quot;child write failed!\n&quot;</span>);<br>                <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>            &#125;<br>            <span class="hljs-keyword">if</span>(read(pipe_parent_to_child[<span class="hljs-number">0</span>], buf, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>)&#123;<br>                perror(<span class="hljs-string">&quot;child read failed\n&quot;</span>);<br>                <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>            &#125;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No.%d, child read: %s\n&quot;</span>, i, buf);<br>        &#125;<br>        close(pipe_child_to_parent[<span class="hljs-number">1</span>]);<br>        close(pipe_parent_to_child[<span class="hljs-number">0</span>]);<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        close(pipe_child_to_parent[<span class="hljs-number">1</span>]);<br>        close(pipe_parent_to_child[<span class="hljs-number">0</span>]);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; EXCHANGE_NUM; i++)&#123;<br>            <span class="hljs-keyword">if</span>(read(pipe_child_to_parent[<span class="hljs-number">0</span>], buf, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>)&#123;<br>                perror(<span class="hljs-string">&quot;parent read failed\n&quot;</span>);<br>                <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>            &#125;<br>            <span class="hljs-keyword">if</span>(write(pipe_parent_to_child[<span class="hljs-number">1</span>], ping, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>)&#123;<br>                perror(<span class="hljs-string">&quot;parent write failed\n&quot;</span>);<br>                <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>            &#125;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No.%d, parent read: %s\n&quot;</span>, i, buf);<br>        &#125;<br>        close(pipe_child_to_parent[<span class="hljs-number">0</span>]);<br>        close(pipe_parent_to_child[<span class="hljs-number">1</span>]);<br>    &#125;<br>    wait(<span class="hljs-literal">NULL</span>);<br>    clock_gettime(CLOCK_MONOTONIC, &amp;end);<br>    time_diff = (end.tv_sec - start.tv_sec) + <br>                          (end.tv_nsec - start.tv_nsec) / <span class="hljs-number">1000000000.0</span>;<br>    <span class="hljs-type">double</span> exchange_per_time = time_diff / EXCHANGE_NUM;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The exchange per time: %.8f\n&quot;</span>, exchange_per_time);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>写代码的过程中遇到了几个需要注意的点：</p>
+<ol>
+<li><p><code>wait</code> 针对的是当前进程等待子进程结束。先前理解的类似 <code>sleep</code> 的作用，实则不然。如果要计算时间应该等父子进程全部结束起 来算结束时间。</p>
+</li>
+<li><p><code>fork()</code> 后的父子进程是并发执行的。之前理解的是：</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span>(fork())&#123;<br>	<span class="hljs-comment">//先执行</span><br>&#125;<span class="hljs-keyword">else</span>&#123;<br>	<span class="hljs-comment">//后执行</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p> 上面这种理解方式是错误的，哒咩～</p>
+</li>
+</ol>
+<p>ps：</p>
+<p>C语言计算时间是有一套的，抽时间可以去熟悉了解一下 <code>&lt;time.h&gt;</code> ～～～</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/" class="print-no-link">#OS</a>
+      
+        <a href="/tags/MIT/" class="print-no-link">#MIT</a>
+      
+        <a href="/tags/6-S081/" class="print-no-link">#6.S081</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MIT_OS_Chp1</div>
+      <div>http://spongebob-369.github.io/2025/09/11/MIT-OS-Chp1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>SpongeBob</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>September 11, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/09/14/2025-FordID-CTF/" title="2025 FordID CTF">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2025 FordID CTF</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/05/buuoj-1/" title="Buu刷题记录">
+                        <span class="hidden-mobile">Buu刷题记录</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
