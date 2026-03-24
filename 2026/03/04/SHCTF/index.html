@@ -19,18 +19,18 @@
   <meta name="author" content="SpongeBob">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本次比赛难度设定为新生赛难度，抽了一些时间做了一些Pwn和Re的题目，然后看了看Crypto相关的题目，感觉AI都能做了，然后就没有很细致的去解决。 还有几道Pwn的题目保存了附件，随后进行 WP 的补充。 Pwnint_overflow本题需要找到两个负数相加起来溢出后低四字节大小为100即可。先写脚本测下 12345678910111213141516#include &lt;stdio.h&amp;">
+    <meta name="description" content="本次比赛难度设定为新生赛难度，抽了一些时间做了一些Pwn和Re的题目，然后看了看Crypto相关的题目，感觉AI都能做了，然后就没有很细致的去解决。 还有几道Pwn的题目保存了附件，随后进行 WP 的补充。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SHCTF wp">
 <meta property="og:url" content="http://spongebob-369.github.io/2026/03/04/SHCTF/index.html">
 <meta property="og:site_name" content="SpongeBobの pineapple house">
-<meta property="og:description" content="本次比赛难度设定为新生赛难度，抽了一些时间做了一些Pwn和Re的题目，然后看了看Crypto相关的题目，感觉AI都能做了，然后就没有很细致的去解决。 还有几道Pwn的题目保存了附件，随后进行 WP 的补充。 Pwnint_overflow本题需要找到两个负数相加起来溢出后低四字节大小为100即可。先写脚本测下 12345678910111213141516#include &lt;stdio.h&amp;">
+<meta property="og:description" content="本次比赛难度设定为新生赛难度，抽了一些时间做了一些Pwn和Re的题目，然后看了看Crypto相关的题目，感觉AI都能做了，然后就没有很细致的去解决。 还有几道Pwn的题目保存了附件，随后进行 WP 的补充。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://spongebob-369.github.io/images/SHCTF_3.png">
 <meta property="og:image" content="http://spongebob-369.github.io/images/SHCTF_1.png">
 <meta property="og:image" content="http://spongebob-369.github.io/images/SHCTF_2.png">
 <meta property="article:published_time" content="2026-03-04T07:52:47.000Z">
-<meta property="article:modified_time" content="2026-03-04T08:01:47.503Z">
+<meta property="article:modified_time" content="2026-03-04T08:05:53.399Z">
 <meta property="article:author" content="SpongeBob">
 <meta property="article:tag" content="pwn">
 <meta property="article:tag" content="ctf">
@@ -289,6 +289,7 @@
                 
                 <p>本次比赛难度设定为新生赛难度，抽了一些时间做了一些Pwn和Re的题目，然后看了看Crypto相关的题目，感觉AI都能做了，然后就没有很细致的去解决。</p>
 <p>还有几道Pwn的题目保存了附件，随后进行 WP 的补充。</p>
+<span id="more"></span>
 <h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="int-overflow"><a href="#int-overflow" class="headerlink" title="int_overflow"></a>int_overflow</h2><p>本题需要找到两个负数相加起来溢出后低四字节大小为100即可。先写脚本测下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#include &lt;stdio.h&gt;</span><br><span class="hljs-comment">#include &lt;stdlib.h&gt;</span><br><span class="hljs-comment">#include &lt;limits.h&gt; </span><br><br><span class="hljs-built_in">int</span> main() &#123;<br>    long long b = <span class="hljs-number">0x100000064</span>;<br>    <span class="hljs-built_in">int</span> d;<br>    <span class="hljs-keyword">for</span>(long long i = -<span class="hljs-number">1</span>; i &gt; INT_MIN; i--)&#123;<br>        d = (<span class="hljs-built_in">int</span>)(b - i);<br>        <span class="hljs-keyword">if</span>(d &lt; <span class="hljs-number">0</span>)&#123;<br>            printf(<span class="hljs-string">&quot;d = %d, i = %d\n&quot;</span>, d, (<span class="hljs-built_in">int</span>)(i));<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -508,6 +509,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2026/03/24/ApoorvCTF-wp/" title="ApoorvCTF wp">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ApoorvCTF wp</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

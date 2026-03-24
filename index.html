@@ -224,6 +224,79 @@
   <div class="row mx-auto index-card">
     
     
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2026/03/24/ApoorvCTF-wp/" target="_self">
+          <img src="/images/ApoorvCTF_idx.png" srcset="/img/loading.gif" lazyload alt="ApoorvCTF wp">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/03/24/ApoorvCTF-wp/" target="_self">
+          ApoorvCTF wp
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2026/03/24/ApoorvCTF-wp/" target="_self">
+        <div>
+          在CTF-Wiki上做了一个UAF相关的题目，对应的附件名字是hacknote。是一个32位程序，题目关闭了Pie保护。 &lt;!—more—&gt; 反编译后查看题目逻辑，总共包含四个功能： Add note添加一个note节点，note的结构可以认为是一个 0x10 的堆块，后8字节结构为： 1234struct node&#123;	void （*print_note)();	char*
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-03-24 23:18" pubdate>
+              2026-03-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/pwn/" class="category-chain-item">pwn</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CTF/">#CTF</a>
+            
+              <a href="/tags/pwn/">#pwn</a>
+            
+              <a href="/tags/io-uring/">#io_uring</a>
+            
+              <a href="/tags/UAF/">#UAF</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
@@ -235,7 +308,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/03/04/SHCTF/" target="_self">
         <div>
-          本次比赛难度设定为新生赛难度，抽了一些时间做了一些Pwn和Re的题目，然后看了看Crypto相关的题目，感觉AI都能做了，然后就没有很细致的去解决。 还有几道Pwn的题目保存了附件，随后进行 WP 的补充。 Pwnint_overflow本题需要找到两个负数相加起来溢出后低四字节大小为100即可。先写脚本测下 12345678910111213141516#include &lt;stdio.h&
+          本次比赛难度设定为新生赛难度，抽了一些时间做了一些Pwn和Re的题目，然后看了看Crypto相关的题目，感觉AI都能做了，然后就没有很细致的去解决。 还有几道Pwn的题目保存了附件，随后进行 WP 的补充。
         </div>
       </a>
 
@@ -348,7 +421,7 @@
       
       <a class="index-excerpt " href="/2025/12/26/3x17-%E4%BB%BB%E6%84%8F%E5%9C%B0%E5%9D%80%E5%86%99%E6%8E%A7%E5%88%B6%E7%A8%8B%E5%BA%8F%E6%B5%81/" target="_self">
         <div>
-          123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354from pwn import *context.update(os=&quot;Linux&quot;, arch=&quot;amd64&quot;)context.log_level = &qu
+          一道pwnable上面的题目
         </div>
       </a>
 
@@ -411,7 +484,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/12/04/calc/" target="_self">
         <div>
-          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677int __cdecl parse_expr(int ptr, _DWORD *initpool)&#1
+          一道pwnable上面的题目
         </div>
       </a>
 
@@ -763,71 +836,6 @@
               <a href="/tags/pwn/">#pwn</a>
             
               <a href="/tags/ctf/">#ctf</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/08/29/CVE-2024-0582/" target="_self">
-          CVE-2024-0582
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/29/CVE-2024-0582/" target="_self">
-        <div>
-          需要先了解一些前置知识  volatile指定变量不能被编译器优化，每次使用都必须从地址直接取值。否则，编译器优化后可能将变量值放入寄存器中来取值。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-08-29 09:43" pubdate>
-              2025-08-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/CVE/" class="category-chain-item">CVE</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Linux/">#Linux</a>
-            
-              <a href="/tags/io-uring/">#io_uring</a>
-            
-              <a href="/tags/CVE/">#CVE</a>
             
           </div>
         
